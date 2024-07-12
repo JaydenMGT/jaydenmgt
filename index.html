@@ -213,7 +213,7 @@
                 userData = true;
                 setTimeout(() => {
                     document.getElementById("submitBt").disabled = false;
-                }, 10);
+                }, 100);
                 getInfo(snapshot.val());
             } else {
                 // if name is not found, then try traditional name
@@ -232,7 +232,7 @@
                                 userData = true;
                                 setTimeout(() => {
                                     document.getElementById("submitBt").disabled = false;
-                                }, 10);
+                                }, 100);
                                 getInfo(snapshot.val());
 
                             } else {
@@ -287,7 +287,7 @@
             // full info
             setTimeout(() => {
                 document.getElementById("submitBt").disabled = false;
-            }, 10);
+            }, 100);
         } else {
             // not full info
             document.getElementById("submitBt").disabled = true;
