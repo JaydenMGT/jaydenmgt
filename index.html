@@ -213,11 +213,13 @@
                 userData = true;
                 setTimeout(() => {
                     document.getElementById("submitBt").disabled = false;
-                }, 300);
+                }, 10);
                 getInfo(snapshot.val());
             } else {
                 // if name is not found, then try traditional name
-                let searchTrN = setInterval(() => {
+                let searchTrN; // Initialize to prevent interval spamming
+                clearInterval(searchTrN);
+                searchTrN = setInterval(() => {
                     if (document.getElementById("trName").children[0].hasChildNodes) {
 
                         clearInterval(searchTrN);
@@ -230,7 +232,7 @@
                                 userData = true;
                                 setTimeout(() => {
                                     document.getElementById("submitBt").disabled = false;
-                                }, 300);
+                                }, 10);
                                 getInfo(snapshot.val());
 
                             } else {
@@ -253,24 +255,24 @@
             console.error(error);
         });
 
-        function getInfo(user) {
-            document.getElementById("gender").value = user.gender;
-            document.getElementById("phone").value = "-";
-            document.getElementById("position").value = user.position;
-            document.getElementById("gender").disabled = true;
-            document.getElementById("phone").disabled = true;
-            document.getElementById("position").disabled = true;
-        };
+    };
 
-        function resetInfo() {
-            document.getElementById("gender").value = "male";
-            document.getElementById("phone").value = "";
-            document.getElementById("position").value = "表演人员";
-            document.getElementById("gender").disabled = false;
-            document.getElementById("phone").disabled = false;
-            document.getElementById("position").disabled = false;
-        };
+    function getInfo(user) {
+        document.getElementById("gender").value = user.gender;
+        document.getElementById("phone").value = "-";
+        document.getElementById("position").value = user.position;
+        document.getElementById("gender").disabled = true;
+        document.getElementById("phone").disabled = true;
+        document.getElementById("position").disabled = true;
+    };
 
+    function resetInfo() {
+        document.getElementById("gender").value = "male";
+        document.getElementById("phone").value = "";
+        document.getElementById("position").value = "表演人员";
+        document.getElementById("gender").disabled = false;
+        document.getElementById("phone").disabled = false;
+        document.getElementById("position").disabled = false;
     };
 
     // Event listener to trigger submit information check
@@ -285,7 +287,7 @@
             // full info
             setTimeout(() => {
                 document.getElementById("submitBt").disabled = false;
-            }, 300);
+            }, 10);
         } else {
             // not full info
             document.getElementById("submitBt").disabled = true;
@@ -295,12 +297,26 @@
     // submit button
     document.getElementById("submitBt").addEventListener("click", submit);
     function submit() {
-        console.log("submit");
+        console.log("submitting...");
 
         var name = document.getElementById("name").value;
         var gender = document.getElementById("gender").value;
         var phone = document.getElementById("phone").value;
         var position = document.getElementById("position").value;
+
+        // try {
+        //     set(ref(database, 'users/' + name), {
+        //         free: {
+        //             gender: gender,
+        //             position: position,
+        //         },
+        //         restrict: {
+        //             phone: phone
+        //         },
+        //     });
+        // } catch (error) {
+        //     console.log("sad: " + error);
+        // }
 
         // If name is filled.
         if (name != "") {
@@ -312,8 +328,13 @@
                 restrict: {
                     phone: phone
                 },
+            }).then(() => {
+                alert("Submitted successfully!");
+                resetInfo();
+                document.getElementById("name").value = "";
+                document.getElementById("trName").innerHTML = "";
             }).catch((error) => {
-                console.log("sad");
+                alert(error);
             });
         };
     };
