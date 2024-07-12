@@ -94,8 +94,10 @@
             src: url('KaiTi.ttf');
             /*这里是字体文件路径*/
         }
-
     </style>
+
+    <link rel="preload" href="KaiTi.ttf" as="font">
+
 </head>
 
 <!-- Google Translate -->
@@ -118,7 +120,7 @@
 <body class="notranslate">
 
     <div id="content" class="content">
-        
+
         <div style="margin: 10px; font-size: 30px;">签到</div>
         <div id="form">
             <div class="info">
@@ -183,7 +185,7 @@
     const database = getDatabase(app);
 
     // set Event listener to check name available
-    document.getElementById("name").addEventListener("focusout", () => {checkUserRecord(); resetLg();});
+    document.getElementById("name").addEventListener("focusout", () => { checkUserRecord(); resetLg(); });
     function checkUserRecord() {
         var name = document.getElementById("name").value;
         if (name == null || name == "") {
