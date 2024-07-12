@@ -63,6 +63,15 @@
             background-color: rgb(230, 230, 230);
         }
 
+        .trName {
+            visibility: hidden;
+            position: absolute;
+            display: inline-block;
+            transform: translate(-100%, 0%);
+            color: gray;
+            pointer-events: none;
+        }
+
         .submitBt {
             border: none;
             border-radius: 5px;
@@ -126,7 +135,7 @@
                 <input type="text" id="name" name="name" autocomplete="off"
                     onfocus="document.getElementById('trName').innerHTML = '';" onfocusout="translateName(this);"
                     required>
-                <div id="trName" name="trName" class="translate" style="visibility: hidden; position: absolute; display: inline-block; transform: translate(-100%, 0%); color: gray; user-select: none;"></div>
+                <div id="trName" name="trName" class="translate trName"></div>
                 <br>
             </div>
             <div class="info">
