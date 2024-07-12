@@ -105,8 +105,8 @@
     //https://gist.github.com/artturik/15bed885bcec6faa95eb73acb2e2ae54
     function googleTranslateElementInit() {
         // document.getElementById("goog-gt-tt").remove();
-        document.querySelectorAll(".VIpgJd-ZVi9od-aZ2wEe-wOHMyf").forEach(el => el.remove());
-        document.querySelectorAll(".VIpgJd-ZVi9od-xl07Ob-OEVmcd").forEach(el => el.remove());
+        // document.querySelectorAll(".VIpgJd-ZVi9od-aZ2wEe-wOHMyf").forEach(el => el.remove());
+        // document.querySelectorAll(".VIpgJd-ZVi9od-xl07Ob-OEVmcd").forEach(el => el.remove());
 
         return new google.translate.TranslateElement({
             pageLanguage: 'zh-CN',
@@ -279,17 +279,22 @@
 
 <script>
 
-    document.getElementById("name").addEventListener("focusout", () => {
-        console.log("changed");
+    // First time language changer
+    resetLg();
+    function resetLg() {
         var resetLg = setInterval(() => {
             if (document.documentElement.lang != "zh-CN") {
                 document.documentElement.lang = "zh-CN";
                 document.querySelectorAll(".VIpgJd-ZVi9od-aZ2wEe-wOHMyf").forEach(el => el.remove());
                 document.querySelectorAll(".VIpgJd-ZVi9od-xl07Ob-OEVmcd").forEach(el => el.remove());
                 clearInterval(resetLg);
+                console.log("cleared.");
             };
         }, 0);
-    });
+    };
+
+    // Focus out name input language changer
+    document.getElementById("name").addEventListener("focusout", resetLg());
 
     // resizePage();
     // window.addEventListener("resize", resizePage);
