@@ -125,9 +125,10 @@
                 <label for="name">名字:</label>
                 <input type="text" id="name" name="name" autocomplete="off"
                     onfocus="document.getElementById('trName').innerHTML = '';" onfocusout="translateName(this);"
-                    required><br>
+                    required>
+                <div id="trName" name="trName" class="translate" style="visibility: hidden; position: absolute; display: inline-block; transform: translate(-100%, 0%); color: gray; user-select: none;"></div>
+                <br>
             </div>
-            <div id="trName" name="trName" class="translate" style="visibility: hidden;"></div>
             <div class="info">
                 <label for="gender">性别:</label>
                 <select id="gender" name="gender">
@@ -321,7 +322,7 @@
                 if (trName.hasChildNodes()) {
                     if (trName.innerHTML != input.value && trName.children[0].children[0].innerHTML != input.value) {
                         trName.style.visibility = "visible";
-                        trName.style.position = "relative";
+                        trName.style.position = "absolute";
                         clearInterval(trTime);
                     };
                 };
