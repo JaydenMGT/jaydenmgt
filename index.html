@@ -11,12 +11,13 @@
             margin: 0;
             /* overflow: hidden; */
             position: relative;
-            height: 100vh;
-            width: 100vw;
+            height: 100%;
             top: 0 !important;
         }
 
-        /* .content {} */
+        .content {
+            display: inline-block;
+        }
 
         .info {
             margin-top: 10px;
@@ -124,6 +125,7 @@
 <body class="notranslate">
 
     <div id="content" class="content">
+        
         <div style="margin: 10px; font-size: 30px;">签到</div>
         <div id="form">
             <div class="info">
@@ -292,9 +294,6 @@
         }, 0);
     };
 
-    // Focus out name input language changer
-    // document.getElementById("name").addEventListener("focusout", resetLg());
-
     resizePage();
     window.addEventListener("resize", resizePage);
 
@@ -302,11 +301,9 @@
         if (window.innerWidth > window.innerHeight) {
             document.getElementById("content").style.scale = window.innerHeight / 800;
             console.log("w > h");
-            alert("computer");
         } else {
             document.getElementById("content").style.scale = window.innerWidth / 400;
             console.log("h > w");
-            alert("phone");
         }
     };
 
