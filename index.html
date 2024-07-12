@@ -211,7 +211,9 @@
             if (snapshot.exists()) {
                 console.log("Found", snapshot.val());
                 userData = true;
-                document.getElementById("submitBt").disabled = false;
+                setTimeout(() => {
+                    document.getElementById("submitBt").disabled = false;
+                }, 300);
                 getInfo(snapshot.val());
             } else {
                 // if name is not found, then try traditional name
@@ -220,14 +222,15 @@
 
                         clearInterval(searchTrN);
                         var name = document.getElementById("trName").children[0].children[0].innerHTML;
-                        console.log(name);
 
                         get(child(dbRef, `users/${name}/free`)).then((snapshot) => {
                             if (snapshot.exists()) {
 
                                 console.log("Found in traditional", snapshot.val());
                                 userData = true;
-                                document.getElementById("submitBt").disabled = false;
+                                setTimeout(() => {
+                                    document.getElementById("submitBt").disabled = false;
+                                }, 300);
                                 getInfo(snapshot.val());
 
                             } else {
@@ -280,7 +283,9 @@
         // unlock button if passed.
         if (document.getElementById("name").value != "" && document.getElementById("gender").value != "" && document.getElementById("phone").value != "" && document.getElementById("phone").value != "-" && document.getElementById("position").value != "") {
             // full info
-            document.getElementById("submitBt").disabled = false;
+            setTimeout(() => {
+                document.getElementById("submitBt").disabled = false;
+            }, 300);
         } else {
             // not full info
             document.getElementById("submitBt").disabled = true;
