@@ -1,2 +1,340 @@
-I love mabok
-How about u?
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <title>点名系统</title>
+    <style>
+        body {
+            text-align: center;
+            align-content: center;
+            margin: 0;
+            overflow: hidden;
+            position: relative;
+            height: 100vh;
+            width: 100vw;
+            top: 0 !important;
+        }
+
+        /* .content {} */
+
+        .info {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            white-space: nowrap;
+        }
+
+        .info>label {
+            font-size: 20px;
+            min-width: 90px;
+            text-align: right;
+            display: inline-block;
+        }
+
+        .info>input,
+        .info>select {
+            font-size: 20px;
+            width: 200px;
+            height: 25px;
+            border: 0px;
+            padding: 0px;
+            outline: none;
+        }
+
+        .info>input {
+            border-bottom: 1px solid rgb(145, 145, 145);
+            transition-duration: 0.2s;
+        }
+
+        .info>input:hover {
+            border-bottom: 1px solid black;
+        }
+
+        .info>select {
+            background-color: rgb(240, 240, 240);
+            transition-duration: 0.2s;
+        }
+
+        .info>select:hover {
+            background-color: rgb(230, 230, 230);
+        }
+
+        .submitBt {
+            border: none;
+            border-radius: 5px;
+            width: 100px;
+            height: 30px;
+            font-size: 17px;
+            background-color: rgb(240, 240, 240);
+            transition-duration: 0.2s;
+        }
+
+        .submitBt:hover {
+            background-color: rgb(220, 220, 220);
+        }
+
+        .submitBt:active {
+            background-color: rgb(190, 190, 190);
+        }
+
+        #google_translate_element,
+        .skiptranslate {
+            display: none;
+        }
+
+        /* iframe.skiptranslate {
+            visibility: hidden !important;
+        } */
+    </style>
+</head>
+
+<!-- Google Translate -->
+<script type="text/javascript">
+    //https://gist.github.com/artturik/15bed885bcec6faa95eb73acb2e2ae54
+    function googleTranslateElementInit() {
+        setTimeout(() => {
+            if (document.getElementById("goog-gt-tt")) {
+                document.getElementById("goog-gt-tt").remove();
+                setTimeout(() => {
+                    document.querySelectorAll(".VIpgJd-ZVi9od-aZ2wEe-wOHMyf").forEach(el => el.remove());
+                    document.querySelectorAll(".VIpgJd-ZVi9od-xl07Ob-OEVmcd").forEach(el => el.remove());
+                }, 100);
+            }
+        }, 0);
+
+        return new google.translate.TranslateElement({
+            pageLanguage: 'zh-CN',
+        }, 'google_translate_element');
+
+    };
+
+    function runGT() {
+        var selectElement = document.querySelector('#google_translate_element select');
+        selectElement.value = "zh-TW";
+        selectElement.dispatchEvent(new Event('change'));
+        var resetLg = setInterval(() => {
+            if (document.documentElement.lang != "zh-CN") {
+                document.documentElement.lang = "zh-CN";
+                clearInterval(resetLg);
+            };
+        }, 0);
+    }
+</script>
+
+<body class="notranslate">
+
+    <div id="content" class="content">
+        <div style="margin: 10px; font-size: 30px;">签到</div>
+        <div id="form">
+            <div class="info">
+                <label for="name">名字:</label>
+                <input type="text" id="name" name="name" autocomplete="off"
+                    onfocus="document.getElementById('trName').innerHTML = '';" onfocusout="translateName(this);"
+                    required><br>
+            </div>
+            <div id="trName" name="trName" class="translate" style="visibility: hidden;"></div>
+            <div class="info">
+                <label for="gender">性别:</label>
+                <select id="gender" name="gender">
+                    <option value="male">男</option>
+                    <option value="female">女</option>
+                </select><br>
+            </div>
+            <div class="info">
+                <label for="phone">电话号码:</label>
+                <input type="text" id="phone" name="phone" autocomplete="off"><br>
+            </div>
+            <div class="info">
+                <label for="position">股别:</label>
+                <select id="position" name="position">
+                </select><br>
+            </div>
+            <br>
+            <button type="submit" id="submitBt" class="submitBt">提 交</button>
+        </div>
+
+        <br>
+        <div id="qrcode" style="display: inline-block; width: 128px;"></div>
+
+    </div>
+
+    <div id="google_translate_element" style="position: fixed; top: 10px; right: 10px;"></div>
+
+</body>
+
+<script type="text/javascript"
+    src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<!-- https://stackoverflow.com/questions/67403923/how-do-i-generate-qr-code-from-url-in-javascript -->
+<script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
+
+<!-- Database -->
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getDatabase, ref, onValue, child, get, set } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+        apiKey: "AIzaSyCeVvD76hirn9IGTKoE_bX_bQdIlLn52t4",
+        authDomain: "attendance-be10e.firebaseapp.com",
+        databaseURL: "https://attendance-be10e-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "attendance-be10e",
+        storageBucket: "attendance-be10e.appspot.com",
+        messagingSenderId: "909884134254",
+        appId: "1:909884134254:web:29d4a1690adccde280277f",
+        measurementId: "G-MGVV7NVKTL"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+
+    // set Event listener to check name available
+    document.getElementById("name").addEventListener("focusout", checkUserRecord);
+    function checkUserRecord() {
+        var name = document.getElementById("name").value;
+        if (name == null || name == "") {
+            resetInfo();
+            return false;
+        };
+        const dbRef = ref(getDatabase());
+        get(child(dbRef, `users/${name}/free`)).then((snapshot) => {
+            if (snapshot.exists()) {
+                console.log("Found", snapshot.val());
+                getInfo(snapshot.val());
+            } else {
+                // if name is not found, then try traditional name
+                let searchTrN = setInterval(() => {
+                    if (document.getElementById("trName").children[0].hasChildNodes) {
+                        clearInterval(searchTrN);
+                        var name = document.getElementById("trName").children[0].children[0].innerHTML;
+                        console.log(name);
+                        get(child(dbRef, `users/${name}/free`)).then((snapshot) => {
+                            if (snapshot.exists()) {
+                                console.log("Found", snapshot.val());
+                                getInfo(snapshot.val());
+                            } else {
+                                console.log("No data available");
+                                resetInfo();
+                            }
+                        }).catch((error) => {
+                            console.error(error);
+                        });
+                    };
+                }, 100);
+            };
+        }).catch((error) => {
+            console.error(error);
+        });
+
+        function getInfo(user) {
+            document.getElementById("gender").value = user.gender;
+            document.getElementById("phone").value = "-";
+            document.getElementById("position").value = user.position;
+            document.getElementById("gender").disabled = true;
+            document.getElementById("phone").disabled = true;
+            document.getElementById("position").disabled = true;
+        };
+
+        function resetInfo() {
+            document.getElementById("gender").value = "male";
+            document.getElementById("phone").value = "";
+            document.getElementById("position").value = "表演人员";
+            document.getElementById("gender").disabled = false;
+            document.getElementById("phone").disabled = false;
+            document.getElementById("position").disabled = false;
+        };
+
+    };
+
+    // submit button
+    document.getElementById("submitBt").addEventListener("click", submit);
+    function submit() {
+        console.log("submit");
+
+        var name = document.getElementById("name").value;
+        var gender = document.getElementById("gender").value;
+        var phone = document.getElementById("phone").value;
+        var position = document.getElementById("position").value;
+
+        set(ref(database, 'users/' + name), {
+            free: {
+                gender: gender,
+                position: position,
+            },
+            restrict: {
+                phone: phone
+            },
+        }).catch((error) => {
+            console.log("sad");
+        });;
+    };
+
+</script>
+<!-- Stop Here -->
+
+<script>
+    resizePage();
+    window.addEventListener("resize", resizePage);
+
+    function resizePage() {
+        if (window.innerWidth > window.innerHeight) {
+            document.getElementById("content").style.scale = window.innerHeight / 800;
+            console.log("w > h");
+        } else {
+            document.getElementById("content").style.scale = window.innerWidth / 400;
+            console.log("h > w");
+        }
+    };
+
+    let positionList = [
+        "表演人员",
+        "场地组",
+        "厨房服务组",
+        "公关组",
+        "公益活动组",
+        "活动策划组",
+        "交通组",
+        "文书组",
+        "音响、技术组",
+        "总务组"
+    ];
+
+    for (let i = 0; i < positionList.length; i++) {
+        document.getElementById("position").innerHTML += "<option value=\"" + positionList[i] + "\">" + positionList[i] + "</option>";
+    };
+
+    function translateName(input) {
+        // googleTranslateElementInit();
+        runGT();
+        trName = document.getElementById("trName");
+        trName.style.visibility = "hidden";
+        trName.style.position = "absolute";
+        trName.innerHTML = input.value;
+        var trTime = setInterval(() => {
+            if (trName.hasChildNodes()) {
+                if (trName.innerHTML != input.value && trName.children[0].children[0].innerHTML != input.value) {
+                    trName.style.visibility = "visible";
+                    trName.style.position = "relative";
+                    clearInterval(trTime);
+                };
+            };
+        }, 100);
+    };
+
+    const qrcode = new QRCode(document.getElementById('qrcode'), {
+        text: 'https://www.youtube.com/',
+        width: 128,
+        height: 128,
+        colorDark: '#000',
+        colorLight: '#fff',
+        correctLevel: QRCode.CorrectLevel.H
+    });
+
+</script>
+
+</html>
