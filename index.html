@@ -23,6 +23,7 @@
             margin-bottom: 10px;
             white-space: nowrap;
             font-family: KaiTi;
+            height: 26px;
         }
 
         .info>label {
@@ -103,33 +104,21 @@
 <script type="text/javascript">
     //https://gist.github.com/artturik/15bed885bcec6faa95eb73acb2e2ae54
     function googleTranslateElementInit() {
-        setTimeout(() => {
-            if (document.getElementById("goog-gt-tt")) {
-                document.getElementById("goog-gt-tt").remove();
-                setTimeout(() => {
-                    document.querySelectorAll(".VIpgJd-ZVi9od-aZ2wEe-wOHMyf").forEach(el => el.remove());
-                    document.querySelectorAll(".VIpgJd-ZVi9od-xl07Ob-OEVmcd").forEach(el => el.remove());
-                }, 100);
-            }
-        }, 0);
+        // document.getElementById("goog-gt-tt").remove();
+        document.querySelectorAll(".VIpgJd-ZVi9od-aZ2wEe-wOHMyf").forEach(el => el.remove());
+        document.querySelectorAll(".VIpgJd-ZVi9od-xl07Ob-OEVmcd").forEach(el => el.remove());
 
         return new google.translate.TranslateElement({
             pageLanguage: 'zh-CN',
         }, 'google_translate_element');
-
     };
 
     function runGT() {
         var selectElement = document.querySelector('#google_translate_element select');
         selectElement.value = "zh-TW";
         selectElement.dispatchEvent(new Event('change'));
-        var resetLg = setInterval(() => {
-            if (document.documentElement.lang != "zh-CN") {
-                document.documentElement.lang = "zh-CN";
-                clearInterval(resetLg);
-            };
-        }, 0);
-    }
+    };
+
 </script>
 
 <body class="notranslate">
@@ -289,6 +278,19 @@
 <!-- Stop Here -->
 
 <script>
+
+    document.getElementById("name").addEventListener("focusout", () => {
+        console.log("changed");
+        var resetLg = setInterval(() => {
+            if (document.documentElement.lang != "zh-CN") {
+                document.documentElement.lang = "zh-CN";
+                document.querySelectorAll(".VIpgJd-ZVi9od-aZ2wEe-wOHMyf").forEach(el => el.remove());
+                document.querySelectorAll(".VIpgJd-ZVi9od-xl07Ob-OEVmcd").forEach(el => el.remove());
+                clearInterval(resetLg);
+            };
+        }, 0);
+    });
+
     // resizePage();
     // window.addEventListener("resize", resizePage);
 
@@ -320,21 +322,24 @@
     };
 
     function translateName(input) {
-        // googleTranslateElementInit();
-        runGT();
-        trName = document.getElementById("trName");
-        trName.style.visibility = "hidden";
-        trName.style.position = "absolute";
-        trName.innerHTML = input.value;
-        var trTime = setInterval(() => {
-            if (trName.hasChildNodes()) {
-                if (trName.innerHTML != input.value && trName.children[0].children[0].innerHTML != input.value) {
-                    trName.style.visibility = "visible";
-                    trName.style.position = "relative";
-                    clearInterval(trTime);
+        if (input.value != "") {
+            runGT();
+            trName = document.getElementById("trName");
+            trName.style.visibility = "hidden";
+            trName.style.position = "absolute";
+            trName.innerHTML = input.value;
+            var trTime = setInterval(() => {
+                if (trName.hasChildNodes()) {
+                    if (trName.innerHTML != input.value && trName.children[0].children[0].innerHTML != input.value) {
+                        trName.style.visibility = "visible";
+                        trName.style.position = "relative";
+                        clearInterval(trTime);
+                    };
                 };
-            };
-        }, 100);
+            }, 100);
+        } else {
+            console.log("Your name field is blank!");
+        };
     };
 
     const qrcode = new QRCode(document.getElementById('qrcode'), {
