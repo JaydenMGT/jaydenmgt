@@ -65,16 +65,18 @@
             width: 100px;
             height: 30px;
             font-size: 17px;
-            background-color: rgb(240, 240, 240);
+            color: white;
+            font-weight: bold;
+            background-color: rgb(85, 210, 255);
             transition-duration: 0.2s;
         }
 
         .submitBt:hover {
-            background-color: rgb(220, 220, 220);
+            background-color: rgb(75, 190, 231);
         }
 
         .submitBt:active {
-            background-color: rgb(190, 190, 190);
+            background-color: rgb(69, 172, 209);
         }
 
         #google_translate_element,
@@ -278,18 +280,18 @@
 <!-- Stop Here -->
 
 <script>
-    resizePage();
-    window.addEventListener("resize", resizePage);
+    // resizePage();
+    // window.addEventListener("resize", resizePage);
 
-    function resizePage() {
-        if (window.innerWidth > window.innerHeight) {
-            document.getElementById("content").style.scale = window.innerHeight / 800;
-            console.log("w > h");
-        } else {
-            document.getElementById("content").style.scale = window.innerWidth / 400;
-            console.log("h > w");
-        }
-    };
+    // function resizePage() {
+    //     if (window.innerWidth > window.innerHeight) {
+    //         document.getElementById("content").style.scale = window.innerHeight / 800;
+    //         console.log("w > h");
+    //     } else {
+    //         document.getElementById("content").style.scale = window.innerWidth / 400;
+    //         console.log("h > w");
+    //     }
+    // };
 
     let positionList = [
         "表演人员",
