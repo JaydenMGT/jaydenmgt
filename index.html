@@ -9,7 +9,7 @@
             text-align: center;
             align-content: center;
             margin: 0;
-            overflow: hidden;
+            /* overflow: hidden; */
             position: relative;
             height: 100vh;
             width: 100vw;
@@ -22,7 +22,7 @@
             margin-top: 10px;
             margin-bottom: 10px;
             white-space: nowrap;
-            font-family:"楷体","楷体_GB2312";
+            font-family: KaiTi;
         }
 
         .info>label {
@@ -35,7 +35,7 @@
         .info>input,
         .info>select {
             font-size: 20px;
-            font-family:"楷体","楷体_GB2312";
+            font-family: KaiTi;
             width: 200px;
             height: 25px;
             border: 0px;
@@ -84,6 +84,13 @@
         #google_translate_element,
         .skiptranslate {
             display: none;
+        }
+
+        @font-face {
+            font-family: KaiTi;
+            /*这里是说明调用来的字体名字*/
+            src: url('KaiTi.ttf');
+            /*这里是字体文件路径*/
         }
 
         /* iframe.skiptranslate {
