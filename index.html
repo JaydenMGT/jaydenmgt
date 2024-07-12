@@ -194,7 +194,7 @@
     const database = getDatabase(app);
 
     // set Event listener to check name available
-    document.getElementById("name").addEventListener("focusout", checkUserRecord);
+    document.getElementById("name").addEventListener("focusout", () => {checkUserRecord(); resetLg();});
     function checkUserRecord() {
         var name = document.getElementById("name").value;
         if (name == null || name == "") {
@@ -293,20 +293,22 @@
     };
 
     // Focus out name input language changer
-    document.getElementById("name").addEventListener("focusout", resetLg());
+    // document.getElementById("name").addEventListener("focusout", resetLg());
 
-    // resizePage();
-    // window.addEventListener("resize", resizePage);
+    resizePage();
+    window.addEventListener("resize", resizePage);
 
-    // function resizePage() {
-    //     if (window.innerWidth > window.innerHeight) {
-    //         document.getElementById("content").style.scale = window.innerHeight / 800;
-    //         console.log("w > h");
-    //     } else {
-    //         document.getElementById("content").style.scale = window.innerWidth / 400;
-    //         console.log("h > w");
-    //     }
-    // };
+    function resizePage() {
+        if (window.innerWidth > window.innerHeight) {
+            document.getElementById("content").style.scale = window.innerHeight / 800;
+            console.log("w > h");
+            alert("computer");
+        } else {
+            document.getElementById("content").style.scale = window.innerWidth / 400;
+            console.log("h > w");
+            alert("phone");
+        }
+    };
 
     let positionList = [
         "表演人员",
