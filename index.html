@@ -11,7 +11,7 @@
             margin: 0;
             /* overflow: hidden; */
             position: relative;
-            height: 100%;
+            height: 100vh;
             top: 0 !important;
         }
 
@@ -95,9 +95,6 @@
             /*这里是字体文件路径*/
         }
 
-        /* iframe.skiptranslate {
-            visibility: hidden !important;
-        } */
     </style>
 </head>
 
@@ -105,10 +102,6 @@
 <script type="text/javascript">
     //https://gist.github.com/artturik/15bed885bcec6faa95eb73acb2e2ae54
     function googleTranslateElementInit() {
-        // document.getElementById("goog-gt-tt").remove();
-        // document.querySelectorAll(".VIpgJd-ZVi9od-aZ2wEe-wOHMyf").forEach(el => el.remove());
-        // document.querySelectorAll(".VIpgJd-ZVi9od-xl07Ob-OEVmcd").forEach(el => el.remove());
-
         return new google.translate.TranslateElement({
             pageLanguage: 'zh-CN',
         }, 'google_translate_element');
@@ -155,9 +148,6 @@
             <button type="submit" id="submitBt" class="submitBt">提 交</button>
         </div>
 
-        <br>
-        <div id="qrcode" style="display: inline-block; width: 128px;"></div>
-
     </div>
 
     <div id="google_translate_element" style="position: fixed; top: 10px; right: 10px;"></div>
@@ -166,9 +156,6 @@
 
 <script type="text/javascript"
     src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-
-<!-- https://stackoverflow.com/questions/67403923/how-do-i-generate-qr-code-from-url-in-javascript -->
-<script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
 
 <!-- Database -->
 <script type="module">
@@ -273,7 +260,7 @@
             },
         }).catch((error) => {
             console.log("sad");
-        });;
+        });
     };
 
 </script>
@@ -296,7 +283,6 @@
 
     resizePage();
     window.addEventListener("resize", resizePage);
-
     function resizePage() {
         if (window.innerWidth > window.innerHeight) {
             document.getElementById("content").style.scale = window.innerHeight / 800;
@@ -344,15 +330,6 @@
             console.log("Your name field is blank!");
         };
     };
-
-    const qrcode = new QRCode(document.getElementById('qrcode'), {
-        text: 'https://www.youtube.com/',
-        width: 128,
-        height: 128,
-        colorDark: '#000',
-        colorLight: '#fff',
-        correctLevel: QRCode.CorrectLevel.H
-    });
 
 </script>
 
