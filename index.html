@@ -92,6 +92,10 @@
             background-color: rgb(51, 87, 196);
         }
 
+        .submitBt:disabled {
+            background-color: gray;
+        }
+
         #google_translate_element,
         .skiptranslate {
             display: none;
@@ -121,7 +125,6 @@
         selectElement.value = "zh-TW";
         selectElement.dispatchEvent(new Event('change'));
     };
-
 </script>
 
 <body class="notranslate">
@@ -133,8 +136,8 @@
             <div class="info">
                 <label for="name">名字:</label>
                 <input type="text" id="name" name="name" autocomplete="off"
-                    onfocus="document.getElementById('trName').innerHTML = '';" onfocusout="translateName(this);"
-                    required>
+                    onfocus="document.getElementById('trName').innerHTML = ''; document.getElementById('submitBt').disabled = true;"
+                    onfocusout="translateName(this);" required>
                 <div id="trName" name="trName" class="translate trName"></div>
                 <br>
             </div>
@@ -155,7 +158,7 @@
                 </select><br>
             </div>
             <br>
-            <button type="submit" id="submitBt" class="submitBt">提 交</button>
+            <button type="submit" id="submitBt" class="submitBt" disabled>提 交</button>
         </div>
 
     </div>
@@ -193,36 +196,53 @@
     const database = getDatabase(app);
 
     // set Event listener to check name available
-    document.getElementById("name").addEventListener("focusout", () => { checkUserRecord(); resetLg(); });
+    document.getElementById("name").addEventListener("focusout", () => { checkUserRecord(); resetLg(); submitCheck(); });
     function checkUserRecord() {
         var name = document.getElementById("name").value;
         if (name == null || name == "") {
+            // lock button if name is null or no value.
+            document.getElementById("submitBt").disabled = true;
             resetInfo();
             return false;
         };
+
         const dbRef = ref(getDatabase());
         get(child(dbRef, `users/${name}/free`)).then((snapshot) => {
             if (snapshot.exists()) {
                 console.log("Found", snapshot.val());
+                userData = true;
+                document.getElementById("submitBt").disabled = false;
                 getInfo(snapshot.val());
             } else {
                 // if name is not found, then try traditional name
                 let searchTrN = setInterval(() => {
                     if (document.getElementById("trName").children[0].hasChildNodes) {
+
                         clearInterval(searchTrN);
                         var name = document.getElementById("trName").children[0].children[0].innerHTML;
                         console.log(name);
+
                         get(child(dbRef, `users/${name}/free`)).then((snapshot) => {
                             if (snapshot.exists()) {
-                                console.log("Found", snapshot.val());
+
+                                console.log("Found in traditional", snapshot.val());
+                                userData = true;
+                                document.getElementById("submitBt").disabled = false;
                                 getInfo(snapshot.val());
+
                             } else {
+
                                 console.log("No data available");
-                                resetInfo();
+                                if (userData == true) {
+                                    resetInfo();
+                                };
+                                userData = false;
+
                             }
                         }).catch((error) => {
                             console.error(error);
                         });
+
                     };
                 }, 100);
             };
@@ -250,6 +270,23 @@
 
     };
 
+    // Event listener to trigger submit information check
+    [document.getElementById("gender"), document.getElementById("phone"), document.getElementById("position")].forEach(function (e) {
+        e.addEventListener("input", submitCheck);
+    });
+
+    // submit information check
+    function submitCheck() {
+        // unlock button if passed.
+        if (document.getElementById("name").value != "" && document.getElementById("gender").value != "" && document.getElementById("phone").value != "" && document.getElementById("phone").value != "-" && document.getElementById("position").value != "") {
+            // full info
+            document.getElementById("submitBt").disabled = false;
+        } else {
+            // not full info
+            document.getElementById("submitBt").disabled = true;
+        };
+    };
+
     // submit button
     document.getElementById("submitBt").addEventListener("click", submit);
     function submit() {
@@ -260,23 +297,28 @@
         var phone = document.getElementById("phone").value;
         var position = document.getElementById("position").value;
 
-        set(ref(database, 'users/' + name), {
-            free: {
-                gender: gender,
-                position: position,
-            },
-            restrict: {
-                phone: phone
-            },
-        }).catch((error) => {
-            console.log("sad");
-        });
+        // If name is filled.
+        if (name != "") {
+            set(ref(database, 'users/' + name), {
+                free: {
+                    gender: gender,
+                    position: position,
+                },
+                restrict: {
+                    phone: phone
+                },
+            }).catch((error) => {
+                console.log("sad");
+            });
+        };
     };
 
 </script>
 <!-- Stop Here -->
 
 <script>
+
+    var userData = false;
 
     // First time language changer
     resetLg();
