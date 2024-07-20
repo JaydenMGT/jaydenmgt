@@ -107,6 +107,7 @@
             if (snapshot.exists()) {
                 console.log("Found", snapshot.val());
                 userData = true;
+                userTr = false;
                 setTimeout(() => {
                     document.getElementById("submitBt").disabled = false;
                 }, 100);
@@ -126,6 +127,7 @@
 
                                 console.log("Found in traditional", snapshot.val());
                                 userData = true;
+                                userTr = true;
                                 setTimeout(() => {
                                     document.getElementById("submitBt").disabled = false;
                                 }, 100);
@@ -224,6 +226,9 @@
             } else {
                 // Else if only name.
                 const date = new Date();
+                if (userTr == true) {
+                    name = document.getElementById("trName").children[0].children[0].innerHTML;
+                };
                 set(ref(database, 'attendance/' + date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate() + '/' + name), {
                     timestamp: serverTimestamp()
                 }).then(() => {
@@ -245,6 +250,7 @@
 <script>
 
     var userData = false;
+    var userTr = false;
 
     // First time language changer
     resetLg();
