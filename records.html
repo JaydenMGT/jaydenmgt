@@ -37,8 +37,13 @@
             padding: 5px 20px;
         }
 
+        .border {
+            border: 1px solid black;
+            margin: -0.5px;
+        }
+
         .head {
-            border-bottom: 1px solid black;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -148,12 +153,12 @@
                         };
                         if (document.getElementById("position").value == "全部") {
                             document.getElementById("list").innerHTML += `
-                                <div>${index}</div><div>${formattedTime}</div><div>${child.key}</div><div>${position.val()}</div>
+                                <div class="border">${index}</div><div class="border">${formattedTime}</div><div class="border">${child.key}</div><div class="border">${position.val()}</div>
                             `;
                             index++;
                         } else if (position.val() == document.getElementById("position").value) {
                             document.getElementById("list").innerHTML += `
-                                <div>${index}</div><div>${formattedTime}</div><div>${child.key}</div><div>${position.val()}</div>
+                                <div class="border">${index}</div><div class="border">${formattedTime}</div><div class="border">${child.key}</div><div class="border">${position.val()}</div>
                             `;
                             index++;
                         };
@@ -171,7 +176,7 @@
                             clearInterval(hasData);
                         } else {
                             document.getElementById("list").innerHTML = `
-                                <div class="head">列</div><div class="head">时间</div><div class="head">名字</div><div class="head">组别</div>
+                                <div class="border head">列</div><div class="border head">时间</div><div class="border head">名字</div><div class="border head">组别</div>
                             ` + document.getElementById("list").innerHTML;
                             clearInterval(hasData);
                         };
