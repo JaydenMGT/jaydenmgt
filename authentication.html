@@ -25,7 +25,10 @@
 
     <div id="content" class="content">
 
+        <div id="email" class="scale" style="position: absolute; top: 10px; right: 10px; transform-origin: right top;"></div>
+
         <button id="login">Login</button>
+        <button id="logout">Logout</button>
 
     </div>
 
@@ -37,7 +40,7 @@
     // Import the functions you need from the SDKs you need
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import { getDatabase, ref } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
-    import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import { getAuth, signInWithPopup, GoogleAuthProvider, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
     // TODO: Add SDKs for Firebase products that you want to use
     // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -61,6 +64,8 @@
     const auth = getAuth(app);
     const provider = new GoogleAuthProvider();
 
+    console.log(auth);
+
     document.getElementById("login").addEventListener("click", () => {
         signInWithPopup(auth, provider)
             .then((result) => {
@@ -83,6 +88,14 @@
                 // ...
                 console.log(errorMessage);
             });
+    });
+
+    document.getElementById("logout").addEventListener("click", () => {
+        signOut(auth).then(() => {
+            // Sign-out successful.
+        }).catch((error) => {
+            // An error happened.
+        });
     });
 
 </script>
