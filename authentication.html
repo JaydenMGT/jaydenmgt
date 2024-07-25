@@ -86,9 +86,10 @@
             document.getElementById("email").innerHTML = auth.currentUser.displayName;
             // ...
         } else {
-            console.log("Signed out.");
             // User is signed out
             // ...
+            document.getElementById("email").innerHTML = "";
+            console.log("Signed out.");
         }
     });
 
