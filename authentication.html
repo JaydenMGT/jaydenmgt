@@ -109,7 +109,7 @@
                 console.log(user.uid);
                 console.log(user.displayName);
 
-                set(ref(database, 'admins/', user.uid), {
+                set(ref(database, 'admins/' + user.uid), {
                     name: user.displayName,
                     email: user.email,
                     last_login: new Date()
