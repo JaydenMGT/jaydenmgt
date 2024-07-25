@@ -112,7 +112,7 @@
                 set(ref(database, 'admins/' + user.uid), {
                     name: user.displayName,
                     email: user.email,
-                    last_login: serverTimestamp
+                    last_login: serverTimestamp()
                 }).then(() => {
                     console.log("Profile updated.");
                 }).catch((error) => {
