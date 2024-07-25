@@ -81,7 +81,8 @@
             // https://firebase.google.com/docs/reference/js/auth.user
             const uid = user.uid;
             console.log(uid);
-            console.log(user);
+            console.log(user.displayName);
+            document.getElementById("email").innerHTML = auth.currentUser.displayName;
             // ...
         } else {
             console.log("Signed out.");
