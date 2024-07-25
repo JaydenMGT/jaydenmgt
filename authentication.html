@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <title>Authentication</title>
+    <style>
+        body {
+            text-align: center;
+            align-content: center;
+            margin: 0;
+            position: relative;
+            height: 100vh;
+            top: 0 !important;
+        }
+
+        .content {
+            display: inline-block;
+            font-size: 27px;
+        }
+    </style>
+</head>
+
+<body class="notranslate">
+
+    <div id="content" class="content">
+
+        <button id="login">Login</button>
+
+    </div>
+
+
+</body>
+
+<!-- Database -->
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getDatabase, ref } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+    import { getAuth, signInWithRedirect, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+        apiKey: "AIzaSyCeVvD76hirn9IGTKoE_bX_bQdIlLn52t4",
+        authDomain: "attendance-be10e.firebaseapp.com",
+        databaseURL: "https://attendance-be10e-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "attendance-be10e",
+        storageBucket: "attendance-be10e.appspot.com",
+        messagingSenderId: "909884134254",
+        appId: "1:909884134254:web:29d4a1690adccde280277f",
+        measurementId: "G-MGVV7NVKTL"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
+
+    document.getElementById("login").addEventListener("click", () => {
+        signInWithRedirect(auth, provider);
+    });
+
+</script>
+<!-- Stop Here -->
+
+<script>
+
+    resizePage();
+    window.addEventListener("resize", resizePage);
+    function resizePage() {
+        if (window.innerWidth > window.innerHeight) {
+            document.getElementById("content").style.scale = window.innerHeight / 800;
+            console.log("w > h");
+        } else {
+            document.getElementById("content").style.scale = window.innerWidth / 400;
+            console.log("h > w");
+        }
+    };
+
+</script>
+
+</html>
