@@ -69,8 +69,9 @@
     const provider = new GoogleAuthProvider();
 
     if (auth) {
-        console.log(auth.currentUser);
-        document.getElementById("email").innerHTML = auth.currentUser.displayName;
+        console.log(auth);
+        console.log(auth[0]);
+        // document.getElementById("email").innerHTML = auth.currentUser.displayName;
     };
 
     document.getElementById("login").addEventListener("click", () => {
