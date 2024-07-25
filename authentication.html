@@ -105,18 +105,15 @@
                 const user = result.user;
                 // IdP data available using getAdditionalUserInfo(result)
                 // ...
-                console.log(user.email);
-                console.log(user.uid);
-                console.log(user.displayName);
 
                 set(ref(database, 'admins/' + user.uid), {
                     name: user.displayName,
                     email: user.email,
-                    last_login: serverTimestamp()
+                    createdAt: serverTimestamp()
                 }).then(() => {
-                    console.log("Profile updated.");
+                    console.log("Registered.");
                 }).catch((error) => {
-                    console.log("Error: profile can't update.");
+                    console.log("Login.");
                 });
 
             }).catch((error) => {
