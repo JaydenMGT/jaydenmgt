@@ -22,15 +22,22 @@
         .scale {
             transform: scale(1);
         }
+
+        .email {
+            display: inline-block;
+            padding: 0px 10px;
+        }
     </style>
 </head>
 
 <body class="notranslate">
 
-    <div id="content" class="content">
-
-        <div id="email" class="scale" style="position: absolute; top: 10px; right: 10px; transform-origin: right top;">
+    <div class="scale" style="position: absolute; top: 10px; right: 10px; transform-origin: right top;">
+        <div id="email" class="email">
         </div>
+    </div>
+
+    <div id="content" class="content">
 
         <button id="login">Login</button>
         <button id="logout">Logout</button>
@@ -68,12 +75,6 @@
 
     const auth = getAuth(app);
     const provider = new GoogleAuthProvider();
-
-    // if (auth) {
-    //     console.log(auth);
-    //     console.log(auth.currentUser);
-    //     // document.getElementById("email").innerHTML = auth.currentUser.displayName;
-    // };
 
     onAuthStateChanged(auth, (user) => {
         if (user) {
