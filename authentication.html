@@ -64,7 +64,10 @@
     const auth = getAuth(app);
     const provider = new GoogleAuthProvider();
 
-    console.log(auth);
+    if (auth) {
+        console.log(auth);
+        document.getElementById("email").innerHTML = auth.currentUser.displayName;
+    };
 
     document.getElementById("login").addEventListener("click", () => {
         signInWithPopup(auth, provider)
