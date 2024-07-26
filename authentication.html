@@ -27,6 +27,26 @@
             display: inline-block;
             padding: 0px 10px;
         }
+
+        .directBt {
+            border: none;
+            border-radius: 5px;
+            width: 100px;
+            height: 30px;
+            font-size: 17px;
+            color: white;
+            font-weight: bold;
+            background-color: rgb(10, 36, 114);
+            transition-duration: 0.2s;
+        }
+
+        .directBt:hover {
+            background-color: rgb(29, 61, 155);
+        }
+
+        .directBt:active {
+            background-color: rgb(51, 87, 196);
+        }
     </style>
 </head>
 
@@ -39,11 +59,16 @@
 
     <div id="content" class="content">
 
-        <div>签到系统管理</div>
+        <img src="INLA_Logo.png" alt="Logo">
+        <div style="margin: 10px; font-size: 30px;">签到系统管理</div>
 
         <div>
             <button id="login" style="display: none;">Login</button>
-            <button id="logout" style="display: none;">Logout</button>
+        </div>
+
+        <div id="pages" style="display: none;">
+            <button id="record">签到记录</button>
+            <button id="logout">Logout</button>
         </div>
 
         <div id="error" style="font-size: 16px; color: red; padding: 5px;"></div>
@@ -93,7 +118,7 @@
             const uid = user.uid;
             document.getElementById("email").innerHTML = auth.currentUser.displayName;
             document.getElementById("login").style.display = "none";
-            document.getElementById("logout").style.display = "inline-block";
+            document.getElementById("pages").style.display = "inline-block";
             // ...
         } else {
             // User is signed out
@@ -101,7 +126,7 @@
             document.getElementById("email").innerHTML = "";
             console.log("Signed out.");
             document.getElementById("login").style.display = "inline-block";
-            document.getElementById("logout").style.display = "none";
+            document.getElementById("pages").style.display = "none";
         }
     });
 
@@ -166,6 +191,10 @@
             console.log("h > w");
         }
     };
+
+    document.getElementById("logout").addEventListener("click", () => {
+        window.location.href = "https://jaydenmgt.github.io/records";
+    });
 
 </script>
 
