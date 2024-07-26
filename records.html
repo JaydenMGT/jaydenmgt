@@ -108,9 +108,9 @@
         if (admin) {
             // User is signed in, see docs for a list of available properties
             // https://firebase.google.com/docs/reference/js/auth.user
-            const uid = user.uid;
+            const uid = admin.uid;
             onValue(ref(database, 'admins/' + uid + '/access'), (admin) => {
-                console.log("Hi");
+                console.log("Hi ", admin.val());
                 console.log(admin.val() == true);
             });
 
