@@ -48,6 +48,10 @@
         .directBt:active {
             background-color: rgb(51, 87, 196);
         }
+
+        .directBt:disabled {
+            background-color: gray;
+        }
     </style>
 </head>
 
@@ -68,7 +72,7 @@
         </div>
 
         <div id="pages" style="display: none;">
-            <button id="record" class="directBt">签到记录</button>
+            <button id="record" class="directBt" disabled>签到记录</button>
             <br>
             <button id="logout">Logout</button>
         </div>
@@ -113,14 +117,21 @@
         prompt: 'select_account',
     });
 
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
+    onAuthStateChanged(auth, (admin) => {
+        if (admin) {
             // User is signed in, see docs for a list of available properties
             // https://firebase.google.com/docs/reference/js/auth.user
-            const uid = user.uid;
             document.getElementById("email").innerHTML = auth.currentUser.displayName;
             document.getElementById("login").style.display = "none";
             document.getElementById("pages").style.display = "inline-block";
+
+            onValue(ref(database, 'admins/' + admin.uid + '/access'), (admin) => {
+                if (admin.val() == true) {
+                    document.getElementById("record").disabled == true;
+                } else {
+                    document.getElementById("record").disabled == false;
+                };
+            });
             // ...
         } else {
             // User is signed out
