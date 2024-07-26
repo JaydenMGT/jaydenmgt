@@ -39,8 +39,14 @@
 
     <div id="content" class="content">
 
-        <button id="login">Login</button>
-        <button id="logout">Logout</button>
+        <div>点名系统管理</div>
+
+        <div>
+            <button id="login" style="display: none;">Login</button>
+            <button id="logout" style="display: none;">Logout</button>
+        </div>
+
+        <div id="error" style="font-size: 16px; color: red; padding: 5px;"></div>
 
     </div>
 
@@ -100,6 +106,8 @@
     });
 
     document.getElementById("login").addEventListener("click", () => {
+        document.getElementById("error").innerHTML = "";
+
         signInWithPopup(auth, provider)
             .then((result) => {
                 // This gives you a Google Access Token. You can use it to access the Google API.
@@ -130,6 +138,7 @@
                 const credential = GoogleAuthProvider.credentialFromError(error);
                 // ...
                 console.log(errorMessage);
+                document.getElementById("error").innerHTML = errorMessage;
             });
     });
 
