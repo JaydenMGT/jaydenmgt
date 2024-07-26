@@ -186,10 +186,15 @@
     window.addEventListener("resize", resizePage);
     function resizePage() {
         if (window.innerWidth > window.innerHeight) {
-            document.getElementById("content").style.scale = window.innerHeight / 800;
+            Array.prototype.forEach.call(document.getElementsByClassName("scale"), (element) => {
+                element.style.transform = "scale(" + window.innerHeight / 800 + ")";
+            });
             console.log("w > h");
         } else {
-            document.getElementById("content").style.scale = window.innerWidth / 400;
+            Array.prototype.forEach.call(document.getElementsByClassName("scale"), (element) => {
+                element.style.transform = "scale(" + window.innerWidth / 500 + ")";
+                // element.style.scale = window.innerWidth / 400;
+            });
             console.log("h > w");
         }
     };
