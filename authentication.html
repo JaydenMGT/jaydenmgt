@@ -148,7 +148,8 @@
                 set(ref(database, 'admins/' + user.uid), {
                     name: user.displayName,
                     email: user.email,
-                    createdAt: serverTimestamp()
+                    createdAt: serverTimestamp(),
+                    access: false
                 }).then(() => {
                     console.log("Registered.");
                 }).catch((error) => {
