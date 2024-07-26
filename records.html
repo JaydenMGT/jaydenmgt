@@ -110,8 +110,9 @@
             // https://firebase.google.com/docs/reference/js/auth.user
             const uid = admin.uid;
             onValue(ref(database, 'admins/' + uid + '/access'), (admin) => {
-                console.log("Hi ", admin.val());
-                console.log(admin.val() == true);
+                if (admin.val() == false) {
+                    window.location.href = "https://jaydenmgt.github.io/authentication";
+                };
             });
 
             // ...
@@ -144,11 +145,6 @@
         var iptDate = document.getElementById("date").valueAsDate;
         document.getElementById("date").valueAsDate = new Date(iptDate.setDate(iptDate.getDate() + 1));
         genList();
-    });
-
-    onValue(ref(database, 'users'), (users) => {
-        console.log("Hi");
-        console.log(users.val());
     });
 
     //generate attendance record list
