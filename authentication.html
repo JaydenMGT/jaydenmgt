@@ -127,9 +127,9 @@
 
             onValue(ref(database, 'admins/' + admin.uid + '/access'), (admin) => {
                 if (admin.val() == true) {
-                    document.getElementById("record").disabled = true;
-                } else {
                     document.getElementById("record").disabled = false;
+                } else {
+                    document.getElementById("record").disabled = true;
                 };
             });
             // ...
