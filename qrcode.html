@@ -17,11 +17,13 @@
         .content {
             display: inline-block;
             font-size: 27px;
+            font-family: KaiTi;
         }
 
         .qrcode {
             animation: qr_op 10s infinite;
             animation-timing-function: ease-in-out;
+            display: inline-block;
         }
 
         @keyframes qr_op {
@@ -37,6 +39,13 @@
                 opacity: 1;
             }
         }
+
+        @font-face {
+            font-family: KaiTi;
+            /*这里是说明调用来的字体名字*/
+            src: url('KaiTi.ttf');
+            /*这里是字体文件路径*/
+        }
     </style>
 </head>
 
@@ -44,12 +53,18 @@
 
     <div id="content" class="content">
 
+        <img src="INLA_Logo.png" alt="Logo">
+        <br>
+
         <div>扫这里</div>
         <br>
 
         <div id="qrcode" class="qrcode"></div>
-
         <br>
+
+        <div style="font-size: 20px; color: blue; font-family: sans-serif;" onclick="window.location.href = 'https:\/\/jaydenmgt.github.io\/'">https://jaydenmgt.github.io/</div>
+        <br>
+
         <div>签到</div>
 
     </div>
