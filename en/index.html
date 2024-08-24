@@ -136,7 +136,14 @@
     function getInfo(user) {
         document.getElementById("gender").value = user.gender;
         document.getElementById("phone").value = "-";
-        document.getElementById("position").value = user.position;
+
+        //Get Position
+        for (let index = 0; index < positionList.length; index++) {
+            if (user.position == positionList_ch[index]) {
+                document.getElementById("position").value = positionList[index];
+            };
+        };
+
         document.getElementById("gender").disabled = true;
         document.getElementById("phone").disabled = true;
         document.getElementById("position").disabled = true;
@@ -182,13 +189,12 @@
         var phone = document.getElementById("phone").value;
 
         var position = document.getElementById("position").value;
-        console.log(position);
+
         for (let index = 0; index < positionList.length; index++) {
             if (position == positionList[index]) {
                 position = positionList_ch[index];
             };
         };
-        console.log(position);
 
         // If name is filled.
         if (name != "") {
