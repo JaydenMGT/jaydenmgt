@@ -261,102 +261,114 @@
         };
     };
 
-    //auto refresh records
-    var canRefresh = true;
-    onValue(ref(database, 'attendance/'), () => {
-        setTimeout(() => {
-            canRefresh = true;
-        }, 1000);
-        if (canRefresh == true) {
-            genList();
-            canRefresh = false;
-        };
-    });
+    // //auto refresh records
+    // var canRefresh = true;
+    // onValue(ref(database, 'attendance/'), () => {
+    //     setTimeout(() => {
+    //         canRefresh = true;
+    //     }, 1000);
+    //     if (canRefresh == true) {
+    //         genList();
+    //         canRefresh = false;
+    //     };
+    // });
 
     //generate attendance record list
     function genList() {
+        unsubscribe();
+        //auto refresh variable
+        var canRefresh = true;
         var inputDate = document.getElementById("date").value.split("-");
         const attRecord = query(ref(database, 'attendance/' + parseInt(inputDate[0]) + '/' + parseInt(inputDate[1]) + '/' + parseInt(inputDate[2])), orderByChild('timestamp'));
 
-        onValue(attRecord, (records) => {
+        const unsubscribe = onValue(attRecord, (records) => {
 
-            if (records.val() == null) {
-                document.getElementById("list").innerHTML = `
+            //auto refresh records
+            setTimeout(() => {
+                canRefresh = true;
+            }, 1000);
+            if (canRefresh == true) {
+                canRefresh = false;
+
+                if (records.val() == null) {
+                    document.getElementById("list").innerHTML = `
                     <div>没有数据</div>
                 `;
-            } else {
+                } else {
 
-                // Initialize record list
-                document.getElementById("list").innerHTML = "";
+                    // Initialize record list
+                    document.getElementById("list").innerHTML = "";
 
-                // Detect has data based on date
-                var hasData;
-                // Row number / index
-                var index = 0;
-                records.forEach((child) => {
+                    // Detect has data based on date
+                    var hasData;
+                    // Row number / index
+                    var index = 0;
+                    records.forEach((child) => {
 
-                    const userInfo = ref(database, 'users/' + child.key + '/free/position');
+                        const userInfo = ref(database, 'users/' + child.key + '/free/position');
 
-                    const timeStamp = child.val().timestamp;
-                    var time = new Date(timeStamp);
-                    var date = time.getDate();
-                    var hours = "0" + time.getHours();
-                    var minutes = "0" + time.getMinutes();
-                    var seconds = "0" + time.getSeconds();
-                    var formattedTime = hours.substr(-2) + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+                        const timeStamp = child.val().timestamp;
+                        var time = new Date(timeStamp);
+                        var date = time.getDate();
+                        var hours = "0" + time.getHours();
+                        var minutes = "0" + time.getMinutes();
+                        var seconds = "0" + time.getSeconds();
+                        var formattedTime = hours.substr(-2) + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
 
-                    onValue(userInfo, (position) => {
-                        if (index == 0) {
-                            index = 1;
-                        };
-                        if (document.getElementById("position").value == "全部") {
-                            document.getElementById("list").innerHTML += `
+                        onValue(userInfo, (position) => {
+                            if (index == 0) {
+                                index = 1;
+                            };
+                            if (document.getElementById("position").value == "全部") {
+                                document.getElementById("list").innerHTML += `
                                 <div class="border">${index}</div><div class="border">${formattedTime}</div><div class="border">${child.key}</div><div class="border">${position.val()}</div><div id="user_${child.key}" class="border" style="color: red;">X</div>
                             `;
-                            //Remove button
-                            setTimeout(() => {
-                                document.getElementById(`user_${child.key}`).addEventListener("click", () => {
-                                    removeRow(child.key);
-                                });
-                            }, 10);
-                            index++;
-                        } else if (position.val() == document.getElementById("position").value) {
-                            document.getElementById("list").innerHTML += `
+                                //Remove button
+                                setTimeout(() => {
+                                    document.getElementById(`user_${child.key}`).addEventListener("click", () => {
+                                        removeRow(child.key);
+                                    });
+                                }, 10);
+                                index++;
+                            } else if (position.val() == document.getElementById("position").value) {
+                                document.getElementById("list").innerHTML += `
                                 <div class="border">${index}</div><div class="border">${formattedTime}</div><div class="border">${child.key}</div><div class="border">${position.val()}</div><div id="user_${child.key}" class="border" style="color: red;">X</div>
                             `;
-                            //Remove button
-                            setTimeout(() => {
-                                document.getElementById(`user_${child.key}`).addEventListener("click", () => {
-                                    removeRow(child.key);
-                                });
-                            }, 10);
-                            index++;
-                        };
-                    }, {
-                        onlyOnce: true
+                                //Remove button
+                                setTimeout(() => {
+                                    document.getElementById(`user_${child.key}`).addEventListener("click", () => {
+                                        removeRow(child.key);
+                                    });
+                                }, 10);
+                                index++;
+                            };
+                        }, {
+                            onlyOnce: true
+                        });
+
                     });
 
-                });
-
-                // Detect if record has data
-                if (hasData == null) {
-                    hasData = setInterval(() => {
-                        if (index >= 1) {
-                            if (index == 1) {
-                                document.getElementById("list").innerHTML = `
+                    // Detect if record has data
+                    if (hasData == null) {
+                        hasData = setInterval(() => {
+                            if (index >= 1) {
+                                if (index == 1) {
+                                    document.getElementById("list").innerHTML = `
                                     <div>没有数据</div>
                                 `;
-                                clearInterval(hasData);
-                            } else {
-                                if (!document.getElementById("list_header")) {
-                                    document.getElementById("list").innerHTML = `
+                                    clearInterval(hasData);
+                                } else {
+                                    if (!document.getElementById("list_header")) {
+                                        document.getElementById("list").innerHTML = `
                                         <div id="list_header" class="border head">列</div><div class="border head">时间</div><div class="border head">名字</div><div class="border head">组别</div><div class="border head">删除</div>
                                     ` + document.getElementById("list").innerHTML;
-                                    clearInterval(hasData);
+                                        clearInterval(hasData);
+                                    };
                                 };
                             };
-                        };
-                    }, 0);
+                        }, 0);
+                    };
+
                 };
 
             };
