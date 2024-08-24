@@ -262,9 +262,8 @@
     };
 
     //auto refresh records
-    var inputDate = document.getElementById("date").value.split("-");
     var canRefresh = true;
-    onValue(ref(database, 'attendance/' + parseInt(inputDate[0]) + '/' + parseInt(inputDate[1]) + '/' + parseInt(inputDate[2])), () => {
+    onValue(ref(database, 'attendance/'), () => {
         setTimeout(() => {
             canRefresh = true;
         }, 1000);
