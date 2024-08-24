@@ -153,6 +153,12 @@
         genList();
     });
 
+    //remove row record
+    function removeRow(name) {
+        var inputDate = document.getElementById("date").value.split("-");
+        remove(ref(database, 'attendance/' + parseInt(inputDate[0]) + '/' + parseInt(inputDate[1]) + '/' + parseInt(inputDate[2]) + '/' + name));
+    };
+
     //generate attendance record list
     function genList(year, month, day) {
         var inputDate = document.getElementById("date").value.split("-");
@@ -220,11 +226,6 @@
             };
 
         });
-    };
-
-    function removeRow(name) {
-        var inputDate = document.getElementById("date").value.split("-");
-        remove(ref(database, 'attendance/' + parseInt(inputDate[0]) + '/' + parseInt(inputDate[1]) + '/' + parseInt(inputDate[2]) + '/' + name));
     };
 
 </script>
