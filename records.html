@@ -234,16 +234,18 @@
             </div>
         `;
 
-
-        // //retrieve date
-        // var inputDate = document.getElementById("date").value.split("-");
-        // set(ref(database, 'attendance/' + parseInt(inputDate[0]) + '/' + parseInt(inputDate[1]) + '/' + parseInt(inputDate[2]) + '/' + name), {
-        //     timestamp: serverTimestamp()
-        // }).then(() => {
-        //     alert("Appended successfully!");
-        // }).catch((error) => {
-        //     alert(error);
-        // });
+        //button event
+        document.getElementById("submitBt").addEventListener("click", () => {
+            //retrieve date
+            var inputDate = document.getElementById("date").value.split("-");
+            set(ref(database, 'attendance/' + parseInt(inputDate[0]) + '/' + parseInt(inputDate[1]) + '/' + parseInt(inputDate[2]) + '/' + document.getElementById("name").value), {
+                timestamp: serverTimestamp()
+            }).then(() => {
+                alert("Appended successfully!");
+            }).catch((error) => {
+                alert(error);
+            });
+        });
     });
 
     //remove row record
