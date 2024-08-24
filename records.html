@@ -261,8 +261,12 @@
         };
     };
 
+    //auto refresh records
+    var inputDate = document.getElementById("date").value.split("-");
+    onValue(ref(database, 'attendance/' + parseInt(inputDate[0]) + '/' + parseInt(inputDate[1]) + '/' + parseInt(inputDate[2])), () => {genList()});
+
     //generate attendance record list
-    function genList(year, month, day) {
+    function genList() {
         var inputDate = document.getElementById("date").value.split("-");
         const attRecord = query(ref(database, 'attendance/' + parseInt(inputDate[0]) + '/' + parseInt(inputDate[1]) + '/' + parseInt(inputDate[2])), orderByChild('timestamp'));
 
