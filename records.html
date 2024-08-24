@@ -156,9 +156,7 @@
     //remove row record
     function removeRow(name) {
         var inputDate = document.getElementById("date").value.split("-");
-        console.log("Yo" + inputDate);
         remove(ref(database, 'attendance/' + parseInt(inputDate[0]) + '/' + parseInt(inputDate[1]) + '/' + parseInt(inputDate[2]) + '/' + name));
-        console.log("Success");
     };
 
     //generate attendance record list
@@ -177,6 +175,8 @@
                 // Initialize record list
                 document.getElementById("list").innerHTML = "";
 
+                // Detect has data based on date
+                var hasData;
                 // Row number / index
                 var index = 0;
                 records.forEach((child) => {
@@ -223,7 +223,6 @@
                 });
 
                 // Detect if record has data
-                var hasData;
                 if (hasData == null) {
                     hasData = setInterval(() => {
                         if (index >= 1) {
