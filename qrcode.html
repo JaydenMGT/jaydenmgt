@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
-    <title>QR码</title>
+    <title>QR Code</title>
     <link rel="icon" href="INLA_Logo.png">
     <style>
         body {
@@ -18,7 +18,7 @@
         .content {
             display: inline-block;
             font-size: 27px;
-            font-family: KaiTi;
+            font-family: sans-serif;
         }
 
         .qrcode {
@@ -52,29 +52,41 @@
 
 <body class="notranslate">
 
-    <div id="content" class="content">
+    <div style="position: absolute; top: 10px; right: 20px; z-index: 1; transform-origin: right top;" class="scale">
+        <div>
+            <img src="magnifier.png" alt="Zoom" width="16" height="16">
+            <input type="range" min="50" max="100" value="50"
+                oninput="document.getElementById('qrcode').children[1].style.width = this.value*4 + 'px';"
+                onchange="document.getElementById('qrcode').children[1].style.width = this.value*4 + 'px';">
+        </div>
+    </div>
+
+    <div id="content" class="content scale">
 
         <div style="font-size: 12px;">
             <img src="INLA_Logo.png" alt="Logo">
             <br>
-            <label style="font-family: sans-serif; font-size: 10px;">Pertubuhan Percinta Alam Antarabangsa, Malaysia</label>
+            <label style="font-family: sans-serif; font-size: 10px;">Pertubuhan Percinta Alam Antarabangsa,
+                Malaysia</label>
             <br>
-            <label style="font-family: sans-serif; font-size: 10px;">The International Nature Loving Association, Malaysia</label>
+            <label style="font-family: sans-serif; font-size: 10px;">The International Nature Loving Association,
+                Malaysia</label>
             <br>
             <label style="font-family: KaiTi; font-size: 16px;">马来西亚国际热爱大自然促进会总会</label>
         </div>
         <br>
 
-        <div>扫这里</div>
+        <div>Scan Here</div>
         <br>
 
         <div id="qrcode" class="qrcode"></div>
         <br>
 
-        <div style="font-size: 20px; color: blue; font-family: sans-serif;" onclick="window.location.href = 'https:\/\/jaydenmgt.github.io\/'">https://jaydenmgt.github.io/</div>
+        <div style="font-size: 20px; color: blue; font-family: sans-serif;"
+            onclick="window.location.href = 'https:\/\/jaydenmgt.github.io\/'">https://jaydenmgt.github.io/</div>
         <br>
 
-        <div>签到</div>
+        <div>Attendance</div>
 
     </div>
 
@@ -89,19 +101,24 @@
     resizePage();
     window.addEventListener("resize", resizePage);
     function resizePage() {
+        document.body.style.display = "block";
         if (window.innerWidth > window.innerHeight) {
-            document.getElementById("content").style.scale = window.innerHeight / 800;
+            Array.prototype.forEach.call(document.getElementsByClassName("scale"), (element) => {
+                element.style.transform = "scale(" + window.innerHeight / 800 + ")";
+            });
             console.log("w > h");
         } else {
-            document.getElementById("content").style.scale = window.innerWidth / 400;
+            Array.prototype.forEach.call(document.getElementsByClassName("scale"), (element) => {
+                element.style.transform = "scale(" + window.innerWidth / 400 + ")";
+            });
             console.log("h > w");
         }
     };
 
     const qrcode = new QRCode(document.getElementById('qrcode'), {
         text: 'https://jaydenmgt.github.io/index.html',
-        width: 400,
-        height: 400,
+        width: 200,
+        height: 200,
         colorDark: '#000',
         colorLight: '#fff',
         correctLevel: QRCode.CorrectLevel.H
