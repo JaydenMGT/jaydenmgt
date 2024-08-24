@@ -74,9 +74,9 @@
 
     </div>
 
-    <div class="scale"
+    <div id="append" class="scale"
         style="position: absolute; border: 1px solid black; border-radius: 5px; height: 30px; width: 30px; font-size: 20px; bottom: 50px; right: 50px;">
-        <div>+</div>
+        +
     </div>
 
 </body>
@@ -154,9 +154,36 @@
         genList();
     });
 
+    //append new row
+    document.getElementById("append").addEventListener("click", () => {
+        document.body.innerHTML += `
+            <div class="scale"
+                style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); border: 1px solid black; border-radius: 5px; height: 200px; width: 400px; font-size: 20px; background-color: white;">
+                <div style="position: absolute; top: 50%; transform: translate(50%, -50%);">
+                    <label for="name">Name :</label>
+                    <input type="text" id="name" name="name" autocomplete="off" required="">
+                    <br><br>
+                    <button type="submit" id="submitBt" class="submitBt">Submit</button>
+                </div>
+            </div>
+        `;
+
+
+        // //retrieve date
+        // var inputDate = document.getElementById("date").value.split("-");
+        // set(ref(database, 'attendance/' + parseInt(inputDate[0]) + '/' + parseInt(inputDate[1]) + '/' + parseInt(inputDate[2]) + '/' + name), {
+        //     timestamp: serverTimestamp()
+        // }).then(() => {
+        //     alert("Appended successfully!");
+        // }).catch((error) => {
+        //     alert(error);
+        // });
+    });
+
     //remove row record
     function removeRow(name) {
         if (confirm("Are you sure you want to remove this record?") == true) {
+            //retrieve date
             var inputDate = document.getElementById("date").value.split("-");
             remove(ref(database, 'attendance/' + parseInt(inputDate[0]) + '/' + parseInt(inputDate[1]) + '/' + parseInt(inputDate[2]) + '/' + name));
             alert("Removed.");
