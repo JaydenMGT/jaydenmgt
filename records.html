@@ -243,6 +243,7 @@
             }).then(() => {
                 alert("Appended successfully!");
                 document.getElementById('window_area').innerHTML = '';
+                genList();
             }).catch((error) => {
                 alert(error);
             });
@@ -262,8 +263,9 @@
     };
 
     //auto refresh records
-    var inputDate = document.getElementById("date").value.split("-");
-    onValue(ref(database, 'attendance/' + parseInt(inputDate[0]) + '/' + parseInt(inputDate[1]) + '/' + parseInt(inputDate[2])), () => {genList()});
+    setInterval(() => {
+        genList();
+    }, 5000);
 
     //generate attendance record list
     function genList() {
