@@ -156,7 +156,9 @@
     //remove row record
     function removeRow(name) {
         var inputDate = document.getElementById("date").value.split("-");
+        console.log("Yo" + inputDate);
         remove(ref(database, 'attendance/' + parseInt(inputDate[0]) + '/' + parseInt(inputDate[1]) + '/' + parseInt(inputDate[2]) + '/' + name));
+        console.log("Success");
     };
 
     //generate attendance record list
