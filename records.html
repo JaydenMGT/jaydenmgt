@@ -198,8 +198,8 @@
                             console.log("user_" + child.key);
                             setTimeout(() => {
                                 document.getElementById(`user_${child.key}`).addEventListener("click", () => {
-                                    console.log("Hi1");
-                                    // removeRow(child.key);
+                                    console.log("Hi1" + child.key);
+                                    removeRow(child.key);
                                 });
                             }, 1);
                             index++;
