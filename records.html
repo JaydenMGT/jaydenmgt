@@ -197,8 +197,11 @@
                             `;
                             console.log("user_" + child.key);
                             document.getElementById("user_" + child.key).addEventListener("click", () => {
-                                console.log("Hi");
-                                console.log(child.key);
+                                console.log("Hi1");
+                                // removeRow(child.key);
+                            });
+                            document.getElementById("user_Test123").addEventListener("click", () => {
+                                console.log("Hi2");
                                 // removeRow(child.key);
                             });
                             index++;
