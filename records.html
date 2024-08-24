@@ -195,9 +195,9 @@
                             document.getElementById("list").innerHTML += `
                                 <div class="border">${index}</div><div class="border">${formattedTime}</div><div class="border">${child.key}</div><div class="border">${position.val()}</div><div class="border" style="color: red;">X</div>
                             `;
-                            document.getElementById("list").addEventListener("onclick", () => {
-                                removeRow(child.key);
-                            });
+                            // document.getElementById("list").addEventListener("onclick", () => {
+                            //     removeRow(child.key);
+                            // });
                             index++;
                         } else if (position.val() == document.getElementById("position").value) {
                             document.getElementById("list").innerHTML += `
