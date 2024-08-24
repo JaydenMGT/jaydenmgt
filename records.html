@@ -242,6 +242,7 @@
                 timestamp: serverTimestamp()
             }).then(() => {
                 alert("Appended successfully!");
+                document.getElementById('window_area').innerHTML = '';
             }).catch((error) => {
                 alert(error);
             });
@@ -348,6 +349,8 @@
 
             };
 
+        }, {
+            onlyOnce: true
         });
     };
 
