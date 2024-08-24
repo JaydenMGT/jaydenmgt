@@ -187,7 +187,7 @@
                         };
                         if (document.getElementById("position").value == "全部") {
                             document.getElementById("list").innerHTML += `
-                                <div class="border">${index}</div><div class="border">${formattedTime}</div><div class="border">${child.key}</div><div class="border">${position.val()}</div><div class="border" style="color: red;">X</div>
+                                <div class="border">${index}</div><div class="border">${formattedTime}</div><div class="border">${child.key}</div><div class="border">${position.val()}</div><div class="border" style="color: red;" onclick="removeRow(${child.key})">X</div>
                             `;
                             index++;
                         } else if (position.val() == document.getElementById("position").value) {
@@ -220,6 +220,11 @@
             };
 
         });
+    };
+
+    function removeRow(name) {
+        var inputDate = document.getElementById("date").value.split("-");
+        remove(ref(database, 'attendance/' + parseInt(inputDate[0]) + '/' + parseInt(inputDate[1]) + '/' + parseInt(inputDate[2]) + '/' + name));
     };
 
 </script>
