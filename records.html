@@ -198,8 +198,7 @@
     });
 
     // Default today search
-    var today = Date.now();
-    document.getElementById("date").valueAsDate = new Date(today);
+    document.getElementById("date").value = (new Date()).toLocaleString('en-CA').substring(0,10);
     genList();
 
     [document.getElementById("position"), document.getElementById("date")].forEach(function (e) {
