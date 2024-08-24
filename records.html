@@ -199,19 +199,25 @@
                             document.getElementById("list").innerHTML += `
                                 <div class="border">${index}</div><div class="border">${formattedTime}</div><div class="border">${child.key}</div><div class="border">${position.val()}</div><div id="user_${child.key}" class="border" style="color: red;">X</div>
                             `;
+                            //Remove button
+                            setTimeout(() => {
+                                document.getElementById(`user_${child.key}`).addEventListener("click", () => {
+                                    removeRow(child.key);
+                                });
+                            }, 10);
                             index++;
                         } else if (position.val() == document.getElementById("position").value) {
                             document.getElementById("list").innerHTML += `
                                 <div class="border">${index}</div><div class="border">${formattedTime}</div><div class="border">${child.key}</div><div class="border">${position.val()}</div><div class="border" style="color: red;">X</div>
                             `;
+                            //Remove button
+                            setTimeout(() => {
+                                document.getElementById(`user_${child.key}`).addEventListener("click", () => {
+                                    removeRow(child.key);
+                                });
+                            }, 10);
                             index++;
                         };
-                        //Remove button
-                        setTimeout(() => {
-                            document.getElementById(`user_${child.key}`).addEventListener("click", () => {
-                                removeRow(child.key);
-                            });
-                        }, 10);
                     });
 
                 });
