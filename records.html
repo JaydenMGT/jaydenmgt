@@ -60,7 +60,7 @@
 
         .input>label {
             font-size: 20px;
-            min-width: 120px;
+            min-width: 70px;
             text-align: right;
             display: inline-block;
         }
@@ -224,7 +224,7 @@
             <div style="position: absolute; height: 100%; width: 100%; top: 0px;" onclick="document.getElementById('appendNewWindow').remove(); this.remove();"></div>
             <div id="appendNewWindow" class="scale"
                 style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); border: 1px solid black; border-radius: 5px; height: 200px; width: 500px; font-size: 20px; background-color: white;">
-                <div class="input" style="position: absolute; top: 50%; transform: translate(50%, -100%);">
+                <div class="input" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -100%);">
                     <label for="name">Name :</label>
                     <input type="text" id="name" name="name" autocomplete="off" required="">
                     <button type="submit" id="submitBt" class="submitBt">Submit</button>
