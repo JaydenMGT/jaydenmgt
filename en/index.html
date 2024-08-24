@@ -107,7 +107,7 @@
     const database = getDatabase(app);
 
     // set Event listener to check name available
-    document.getElementById("name").addEventListener("focusout", () => { checkUserRecord(); resetLg(); submitCheck(); });
+    document.getElementById("name").addEventListener("focusout", () => { checkUserRecord(); submitCheck(); });
     function checkUserRecord() {
         var name = document.getElementById("name").value;
         if (name == null || name == "") {
@@ -145,7 +145,7 @@
     function resetInfo() {
         document.getElementById("gender").value = "male";
         document.getElementById("phone").value = "";
-        document.getElementById("position").value = "表演人员";
+        document.getElementById("position").value = "Performers";
         document.getElementById("gender").disabled = false;
         document.getElementById("phone").disabled = false;
         document.getElementById("position").disabled = false;
@@ -176,9 +176,19 @@
         console.log("submitting...");
 
         var name = document.getElementById("name").value;
+
         var gender = document.getElementById("gender").value;
+
         var phone = document.getElementById("phone").value;
+
         var position = document.getElementById("position").value;
+        console.log(position);
+        for (let index = 0; index < positionList.length; index++) {
+            if (position == positionList[index]) {
+                position = positionList_ch[index];
+            };
+        };
+        console.log(position);
 
         // If name is filled.
         if (name != "") {
@@ -253,6 +263,20 @@
         "Technical Team",
         "General Affairs",
         "Others"
+    ];
+
+    let positionList_ch = [
+        "表演人员",
+        "场地组",
+        "厨房服务组",
+        "公关组",
+        "公益活动组",
+        "活动策划组",
+        "交通组",
+        "文书组",
+        "音响、技术组",
+        "总务组",
+        "其他"
     ];
 
     for (let i = 0; i < positionList.length; i++) {
