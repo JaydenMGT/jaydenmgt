@@ -193,8 +193,13 @@
                         };
                         if (document.getElementById("position").value == "全部") {
                             document.getElementById("list").innerHTML += `
-                                <div class="border">${index}</div><div class="border">${formattedTime}</div><div class="border">${child.key}</div><div class="border">${position.val()}</div><div class="border" style="color: red;" onclick="console.log('Hi ', ${child.key});">X</div>
+                                <div class="border">${index}</div><div class="border">${formattedTime}</div><div class="border">${child.key}</div><div class="border">${position.val()}</div><div id="user_${child.key}" class="border" style="color: red;">X</div>
                             `;
+                            console.log("user_" + child.key);
+                            document.getElementById(`user_${child.key}`).addEventListener("click", () => {
+                                console.log("Hi1");
+                                // removeRow(child.key);
+                            });
                             index++;
                         } else if (position.val() == document.getElementById("position").value) {
                             document.getElementById("list").innerHTML += `
