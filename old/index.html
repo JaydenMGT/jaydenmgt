@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <title class="notranslate">签到</title>
+    <link rel="icon" href="INLA_Logo.png">
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<!-- Google Translate -->
+<script type="text/javascript">
+    //https://gist.github.com/artturik/15bed885bcec6faa95eb73acb2e2ae54
+    function googleTranslateElementInit() {
+        return new google.translate.TranslateElement({
+            pageLanguage: 'zh-CN',
+        }, 'google_translate_element');
+    };
+
+    function runGT() {
+        var selectElement = document.querySelector('#google_translate_element select');
+        selectElement.value = "zh-TW";
+        selectElement.dispatchEvent(new Event('change'));
+    };
+</script>
+
+<body class="notranslate">
+
+    <div id="content" class="content">
+
+        <div style="font-size: 12px;">
+            <img src="INLA_Logo.png" alt="Logo">
+            <br>
+            <label style="font-family: sans-serif; font-size: 10px;">Pertubuhan Percinta Alam Antarabangsa,
+                Malaysia</label>
+            <br>
+            <label style="font-family: sans-serif; font-size: 10px;">The International Nature Loving Association,
+                Malaysia</label>
+            <br>
+            <label style="font-family: KaiTi; font-size: 16px;">马来西亚国际热爱大自然促进会总会</label>
+        </div>
+        <div style="margin: 10px; font-size: 30px;">签到</div>
+        <div id="form">
+            <div class="info">
+                <label for="name">名字:</label>
+                <input type="text" id="name" name="name" autocomplete="off"
+                    onfocus="document.getElementById('trName').innerHTML = ''; document.getElementById('submitBt').disabled = true;"
+                    onfocusout="translateName(this);" required>
+                <div id="trName" name="trName" class="translate trName"></div>
+                <br>
+            </div>
+            <div class="info">
+                <label for="gender">性别:</label>
+                <select id="gender" name="gender">
+                    <option value="male">男</option>
+                    <option value="female">女</option>
+                </select><br>
+            </div>
+            <div class="info">
+                <label for="phone">电话号码:</label>
+                <input type="text" id="phone" name="phone" autocomplete="off"><br>
+            </div>
+            <div class="info">
+                <label for="position">组别:</label>
+                <select id="position" name="position">
+                </select><br>
+            </div>
+            <br>
+            <button type="submit" id="submitBt" class="submitBt" disabled>提 交</button>
+        </div>
+
+    </div>
+
+    <div id="google_translate_element" style="position: fixed; top: 10px; right: 10px;"></div>
+
+</body>
+
+<script type="text/javascript"
+    src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<!-- Database -->
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getDatabase, ref, onValue, child, get, set, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+        apiKey: "AIzaSyCP2fBe6nUc7Hczc00YSlxW3qj0aeN4NBc",
+        authDomain: "jaydenmgt-attendance.firebaseapp.com",
+        databaseURL: "https://jaydenmgt-attendance-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "jaydenmgt-attendance",
+        storageBucket: "jaydenmgt-attendance.appspot.com",
+        messagingSenderId: "308588458745",
+        appId: "1:308588458745:web:0ca9bfe50c3c0aef9f2828",
+        measurementId: "G-6JFL5FCD09"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+
+    // set Event listener to check name available
+    document.getElementById("name").addEventListener("focusout", () => { checkUserRecord(); resetLg(); submitCheck(); });
+    function checkUserRecord() {
+        var name = document.getElementById("name").value;
+        if (name == null || name == "") {
+            // lock button if name is null or no value.
+            document.getElementById("submitBt").disabled = true;
+            resetInfo();
+            return false;
+        };
+
+        const dbRef = ref(getDatabase());
+        get(child(dbRef, `users/${name}/free`)).then((snapshot) => {
+            if (snapshot.exists()) {
+                console.log("Found", snapshot.val());
+                userData = true;
+                userTr = false;
+                setTimeout(() => {
+                    document.getElementById("submitBt").disabled = false;
+                }, 100);
+                getInfo(snapshot.val());
+            } else {
+                // if name is not found, then try traditional name
+                let searchTrN; // Initialize to prevent interval spamming
+                clearInterval(searchTrN);
+                searchTrN = setInterval(() => {
+                    if (document.getElementById("trName").children[0].hasChildNodes) {
+
+                        clearInterval(searchTrN);
+                        var name = document.getElementById("trName").children[0].children[0].innerHTML;
+
+                        get(child(dbRef, `users/${name}/free`)).then((snapshot) => {
+                            if (snapshot.exists()) {
+
+                                console.log("Found in traditional", snapshot.val());
+                                userData = true;
+                                userTr = true;
+                                setTimeout(() => {
+                                    document.getElementById("submitBt").disabled = false;
+                                }, 100);
+                                getInfo(snapshot.val());
+
+                            } else {
+
+                                console.log("No data available");
+                                if (userData == true) {
+                                    resetInfo();
+                                };
+                                userData = false;
+
+                            }
+                        }).catch((error) => {
+                            console.error(error);
+                        });
+
+                    };
+                }, 100);
+            };
+        }).catch((error) => {
+            console.error(error);
+        });
+
+    };
+
+    function getInfo(user) {
+        document.getElementById("gender").value = user.gender;
+        document.getElementById("phone").value = "-";
+        document.getElementById("position").value = user.position;
+        document.getElementById("gender").disabled = true;
+        document.getElementById("phone").disabled = true;
+        document.getElementById("position").disabled = true;
+    };
+
+    function resetInfo() {
+        document.getElementById("gender").value = "male";
+        document.getElementById("phone").value = "";
+        document.getElementById("position").value = "表演人员";
+        document.getElementById("gender").disabled = false;
+        document.getElementById("phone").disabled = false;
+        document.getElementById("position").disabled = false;
+    };
+
+    // Event listener to trigger submit information check
+    [document.getElementById("gender"), document.getElementById("phone"), document.getElementById("position")].forEach(function (e) {
+        e.addEventListener("input", submitCheck);
+    });
+
+    // submit information check
+    function submitCheck() {
+        // unlock button if passed.
+        if (document.getElementById("name").value != "" && document.getElementById("gender").value != "" && document.getElementById("phone").value != "" && document.getElementById("phone").value != "-" && document.getElementById("position").value != "") {
+            // full info
+            setTimeout(() => {
+                document.getElementById("submitBt").disabled = false;
+            }, 100);
+        } else {
+            // not full info
+            document.getElementById("submitBt").disabled = true;
+        };
+    };
+
+    // submit button
+    document.getElementById("submitBt").addEventListener("click", submit);
+    function submit() {
+        console.log("submitting...");
+
+        var name = document.getElementById("name").value;
+        var gender = document.getElementById("gender").value;
+        var phone = document.getElementById("phone").value;
+        var position = document.getElementById("position").value;
+
+        // If name is filled.
+        if (name != "") {
+            // If all infomation is filled.
+            if (!(document.getElementById("gender").disabled == true && document.getElementById("phone").disabled == true && phone == "-" && document.getElementById("position").disabled == true)) {
+                set(ref(database, 'users/' + name), {
+                    free: {
+                        gender: gender,
+                        position: position,
+                    },
+                    restrict: {
+                        phone: phone,
+                        registerOn: serverTimestamp()
+                    }
+                }).then(() => {
+                    alert("Registered successfully!");
+                    resetInfo();
+                    document.getElementById("name").value = "";
+                    document.getElementById("trName").innerHTML = "";
+                }).catch((error) => {
+                    alert(error);
+                });
+            } else {
+                // Else if only name.
+                const date = new Date();
+                if (userTr == true) {
+                    name = document.getElementById("trName").children[0].children[0].innerHTML;
+                };
+                set(ref(database, 'attendance/' + date.getFullYear() + '/' + (date.getMonth() + 1) + '/' + date.getDate() + '/' + name), {
+                    timestamp: serverTimestamp()
+                }).then(() => {
+                    alert("Recorded successfully!");
+                    resetInfo();
+                    document.getElementById("name").value = "";
+                    document.getElementById("trName").innerHTML = "";
+                }).catch((error) => {
+                    alert("Error: Your attendance have been recorded today.");
+                });
+            };
+
+        };
+    };
+
+</script>
+<!-- Stop Here -->
+
+<script>
+
+    var userData = false;
+    var userTr = false;
+
+    // First time language changer
+    resetLg();
+    function resetLg() {
+        var resetLg = setInterval(() => {
+            if (document.documentElement.lang != "zh-CN") {
+                document.documentElement.lang = "zh-CN";
+                document.querySelectorAll(".VIpgJd-ZVi9od-aZ2wEe-wOHMyf").forEach(el => el.remove());
+                document.querySelectorAll(".VIpgJd-ZVi9od-xl07Ob-OEVmcd").forEach(el => el.remove());
+                clearInterval(resetLg);
+            };
+        }, 0);
+    };
+
+    resizePage();
+    window.addEventListener("resize", resizePage);
+    function resizePage() {
+        if (window.innerWidth > window.innerHeight) {
+            document.getElementById("content").style.scale = window.innerHeight / 800;
+            console.log("w > h");
+        } else {
+            document.getElementById("content").style.scale = window.innerWidth / 400;
+            console.log("h > w");
+        }
+    };
+
+    let positionList = [
+        "表演人员",
+        "场地组",
+        "厨房服务组",
+        "公关组",
+        "公益活动组",
+        "活动策划组",
+        "交通组",
+        "文书组",
+        "音响、技术组",
+        "总务组",
+        "其他"
+    ];
+
+    for (let i = 0; i < positionList.length; i++) {
+        document.getElementById("position").innerHTML += "<option value=\"" + positionList[i] + "\">" + positionList[i] + "</option>";
+    };
+
+    function translateName(input) {
+        if (input.value != "") {
+            runGT();
+            trName = document.getElementById("trName");
+            trName.style.visibility = "hidden";
+            trName.style.position = "absolute";
+            trName.innerHTML = input.value;
+            var trTime = setInterval(() => {
+                if (trName.hasChildNodes()) {
+                    if (trName.innerHTML != input.value && trName.children[0].children[0].innerHTML != input.value) {
+                        trName.style.visibility = "visible";
+                        trName.style.position = "absolute";
+                        clearInterval(trTime);
+                    };
+                };
+            }, 100);
+        } else {
+            console.log("Your name field is blank!");
+        };
+    };
+
+</script>
+
+</html>
