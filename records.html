@@ -275,16 +275,12 @@
 
     //generate attendance record list
     function genList() {
-        let unsubscribe;
-        if (unsubscribe != null) {
-            unsubscribe();
-        };
         //auto refresh variable
         var canRefresh = true;
         var inputDate = document.getElementById("date").value.split("-");
         const attRecord = query(ref(database, 'attendance/' + parseInt(inputDate[0]) + '/' + parseInt(inputDate[1]) + '/' + parseInt(inputDate[2])), orderByChild('timestamp'));
 
-        unsubscribe = onValue(attRecord, (records) => {
+        onValue(attRecord, (records) => {
 
             //auto refresh records
             setTimeout(() => {
