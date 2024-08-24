@@ -165,7 +165,14 @@
     function genList(year, month, day) {
         var inputDate = document.getElementById("date").value.split("-");
         const attRecord = query(ref(database, 'attendance/' + parseInt(inputDate[0]) + '/' + parseInt(inputDate[1]) + '/' + parseInt(inputDate[2])), orderByChild('timestamp'));
+
+        let canRefresh = true;
         onValue(attRecord, (records) => {
+            //Prevent spamming
+            canRefresh = false;
+            setTimeout(() => {
+                canRefresh = true;
+            }, 1000);
 
             if (records.val() == null) {
                 document.getElementById("list").innerHTML = `
@@ -217,21 +224,24 @@
                 });
 
                 // Detect if record has data
-                var hasData = setInterval(() => {
-                    if (index >= 1) {
-                        if (index == 1) {
-                            document.getElementById("list").innerHTML = `
+                var hasData;
+                if (hasData == null) {
+                    hasData = setInterval(() => {
+                        if (index >= 1) {
+                            if (index == 1) {
+                                document.getElementById("list").innerHTML = `
                                 <div>没有数据</div>
                             `;
-                            clearInterval(hasData);
-                        } else {
-                            document.getElementById("list").innerHTML = `
+                                clearInterval(hasData);
+                            } else {
+                                document.getElementById("list").innerHTML = `
                                 <div class="border head">列</div><div class="border head">时间</div><div class="border head">名字</div><div class="border head">组别</div><div class="border head">删除</div>
                             ` + document.getElementById("list").innerHTML;
-                            clearInterval(hasData);
+                                clearInterval(hasData);
+                            };
                         };
-                    };
-                }, 0);
+                    }, 0);
+                };
 
             };
 
