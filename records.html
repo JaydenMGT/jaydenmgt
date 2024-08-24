@@ -54,13 +54,13 @@
             margin-top: 10px;
             margin-bottom: 10px;
             white-space: nowrap;
-            font-family: KaiTi;
+            font-family: sans-serif;
             height: 26px;
         }
 
         .input>label {
             font-size: 20px;
-            min-width: 90px;
+            min-width: 120px;
             text-align: right;
             display: inline-block;
         }
@@ -68,7 +68,7 @@
         .input>input,
         .input>select {
             font-size: 20px;
-            font-family: KaiTi;
+            font-family: sans-serif;
             width: 200px;
             height: 25px;
             border: 0px;
@@ -221,12 +221,12 @@
     //append new row
     document.getElementById("append").addEventListener("click", () => {
         document.body.innerHTML += `
-            <div class="scale"
+            <div style="position: absolute; height: 100%; width: 100%; top: 0px;" onclick="document.getElementById('appendNewWindow').remove(); this.remove();"></div>
+            <div id="appendNewWindow" class="scale"
                 style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); border: 1px solid black; border-radius: 5px; height: 200px; width: 500px; font-size: 20px; background-color: white;">
-                <div class="input" style="position: absolute; top: 50%; transform: translate(50%, -50%);">
+                <div class="input" style="position: absolute; top: 50%; transform: translate(50%, -100%);">
                     <label for="name">Name :</label>
                     <input type="text" id="name" name="name" autocomplete="off" required="">
-                    <br><br>
                     <button type="submit" id="submitBt" class="submitBt">Submit</button>
                 </div>
             </div>
