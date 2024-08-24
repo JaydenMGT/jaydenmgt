@@ -243,7 +243,6 @@
             }).then(() => {
                 alert("Appended successfully!");
                 document.getElementById('window_area').innerHTML = '';
-                genList();
             }).catch((error) => {
                 alert(error);
             });
@@ -263,9 +262,17 @@
     };
 
     //auto refresh records
-    setInterval(() => {
-        genList();
-    }, 5000);
+    var inputDate = document.getElementById("date").value.split("-");
+    var canRefresh = true;
+    onValue(ref(database, 'attendance/' + parseInt(inputDate[0]) + '/' + parseInt(inputDate[1]) + '/' + parseInt(inputDate[2])), () => {
+        setTimeout(() => {
+            canRefresh = true;
+        }, 1000);
+        if (canRefresh == true) {
+            genList();
+            canRefresh = false;
+        };
+    });
 
     //generate attendance record list
     function genList() {
