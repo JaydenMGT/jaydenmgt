@@ -328,17 +328,17 @@
                                 }, 10);
                                 index++;
                             };
-                            if (index != 0) {
+                            if (index == 1) {
+                                document.getElementById("list").innerHTML = `
+                                    <div>没有数据</div>
+                                `;
+                            } else {
                                 if (!document.getElementById("list_header")) {
                                     document.getElementById("list").innerHTML = `
                                         <div id="list_header" class="border head">列</div><div class="border head">时间</div><div class="border head">名字</div><div class="border head">组别</div><div class="border head">删除</div>
                                     ` + document.getElementById("list").innerHTML;
                                     clearInterval(hasData);
                                 };
-                            } else {
-                                document.getElementById("list").innerHTML = `
-                                    <div>没有数据</div>
-                                `;
                             };
                         }, {
                             onlyOnce: true
