@@ -109,14 +109,17 @@
     // set Event listener to check name available
     document.getElementById("name").addEventListener("focusout", () => { checkUserRecord(); submitCheck(); });
     function checkUserRecord() {
+        console.log("testhi");
         var name = document.getElementById("name").value;
         if (name == null || name == "") {
+            console.log("testhi1");
             // lock button if name is null or no value.
             document.getElementById("submitBt").disabled = true;
             resetInfo();
             return false;
         };
 
+        console.log("testhi2");
         const dbRef = ref(getDatabase());
         get(child(dbRef, `users/${name}/free`)).then((snapshot) => {
             if (snapshot.exists()) {
@@ -126,7 +129,14 @@
                     document.getElementById("submitBt").disabled = false;
                 }, 100);
                 getInfo(snapshot.val());
-            };
+            } else {
+                //No user data
+                console.log("No data available");
+                if (userData == true) {
+                    resetInfo();
+                };
+                userData = false;
+            }
         }).catch((error) => {
             console.error(error);
         });
@@ -211,8 +221,11 @@
                     }
                 }).then(() => {
                     alert("Registered successfully!");
-                    resetInfo();
-                    document.getElementById("name").value = "";
+                    // resetInfo();
+                    checkUserRecord();
+                    submitCheck();
+                    // document.getElementById("name").value = "";
+                    // document.getElementById("trName").innerHTML = "";
                 }).catch((error) => {
                     alert(error);
                 });
