@@ -241,9 +241,11 @@
                     }
                 }).then(() => {
                     alert("Registered successfully!");
-                    resetInfo();
-                    document.getElementById("name").value = "";
-                    document.getElementById("trName").innerHTML = "";
+                    // resetInfo();
+                    checkUserRecord();
+                    submitCheck();
+                    // document.getElementById("name").value = "";
+                    // document.getElementById("trName").innerHTML = "";
                 }).catch((error) => {
                     alert(error);
                 });
