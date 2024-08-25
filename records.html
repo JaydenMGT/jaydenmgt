@@ -288,6 +288,10 @@
                     // Initialize record list
                     document.getElementById("list").innerHTML = "";
 
+                    document.getElementById("list").innerHTML = `
+                        <div id="noData">没有数据</div>
+                    `;
+
                     // // Detect has data based on date
                     // var hasData;
                     // Row number / index
@@ -327,20 +331,15 @@
                                     });
                                 }, 10);
                             };
-                            if (index == 1) {
-                                document.getElementById("list").innerHTML = `
-                                    <div id="noData">没有数据</div>
-                                `;
-                            } else {
-                                if (!document.getElementById("list_header")) {
-                                    if (document.getElementById("noData")) {
-                                        document.getElementById("noData").remove();
-                                    };
-                                    document.getElementById("list").innerHTML = `
-                                        <div id="list_header" class="border head">列</div><div class="border head">时间</div><div class="border head">名字</div><div class="border head">组别</div><div class="border head">删除</div>
-                                    ` + document.getElementById("list").innerHTML;
+                            if (!document.getElementById("list_header")) {
+                                if (document.getElementById("noData")) {
+                                    document.getElementById("noData").remove();
                                 };
+                                document.getElementById("list").innerHTML = `
+                                    <div id="list_header" class="border head">列</div><div class="border head">时间</div><div class="border head">名字</div><div class="border head">组别</div><div class="border head">删除</div>
+                                ` + document.getElementById("list").innerHTML;
                             };
+
                         }, {
                             onlyOnce: true
                         });
