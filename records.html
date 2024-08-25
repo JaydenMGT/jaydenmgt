@@ -360,11 +360,11 @@
                                     ` + document.getElementById("list").innerHTML;
                                 };
                                 //Remove button
-                                setTimeout(() => {
+                                // setTimeout(() => {
                                     document.getElementById(`user_${child.key}`).addEventListener("click", () => {
                                         removeRow(child.key);
                                     });
-                                }, 10);
+                                // }, 10);
                             };
                         }, {
                             onlyOnce: true
