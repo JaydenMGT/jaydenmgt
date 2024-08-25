@@ -281,8 +281,8 @@
 
                 if (records.val() == null) {
                     document.getElementById("list").innerHTML = `
-                    <div>没有数据</div>
-                `;
+                        <div>没有数据</div>
+                    `;
                 } else {
 
                     // Initialize record list
@@ -310,36 +310,62 @@
                         var formattedTime = hours.substr(-2) + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
 
                         onValue(userInfo, (position) => {
-                            if (document.getElementById("position").value == "全部") {
+                            // if (document.getElementById("position").value == "全部") {
+                            //     document.getElementById("list").innerHTML += `
+                            //         <div class="border">${index}</div><div class="border">${formattedTime}</div><div class="border">${child.key}</div><div class="border">${position.val()}</div><div id="user_${child.key}" class="border" style="color: red;">X</div>
+                            //     `;
+                            //     if (!document.getElementById("list_header")) {
+                            //         if (document.getElementById("noData")) {
+                            //             document.getElementById("noData").remove();
+                            //         };
+                            //         document.getElementById("list").innerHTML = `
+                            //             <div id="list_header" class="border head">列</div><div class="border head">时间</div><div class="border head">名字</div><div class="border head">组别</div><div class="border head">删除</div>
+                            //         ` + document.getElementById("list").innerHTML;
+                            //     };
+                            //     //Remove button
+                            //     setTimeout(() => {
+                            //         document.getElementById(`user_${child.key}`).addEventListener("click", () => {
+                            //             removeRow(child.key);
+                            //         });
+                            //     }, 10);
+                            // } else if (position.val() == document.getElementById("position").value) {
+                            //     document.getElementById("list").innerHTML += `
+                            //         <div class="border">${index}</div><div class="border">${formattedTime}</div><div class="border">${child.key}</div><div class="border">${position.val()}</div><div id="user_${child.key}" class="border" style="color: red;">X</div>
+                            //     `;
+                            //     if (!document.getElementById("list_header")) {
+                            //         if (document.getElementById("noData")) {
+                            //             document.getElementById("noData").remove();
+                            //         };
+                            //         document.getElementById("list").innerHTML = `
+                            //             <div id="list_header" class="border head">列</div><div class="border head">时间</div><div class="border head">名字</div><div class="border head">组别</div><div class="border head">删除</div>
+                            //         ` + document.getElementById("list").innerHTML;
+                            //     };
+                            //     //Remove button
+                            //     setTimeout(() => {
+                            //         document.getElementById(`user_${child.key}`).addEventListener("click", () => {
+                            //             removeRow(child.key);
+                            //         });
+                            //     }, 10);
+                            // };
+                            if (document.getElementById("position").value == "全部" || position.val() == document.getElementById("position").value) {
                                 document.getElementById("list").innerHTML += `
                                     <div class="border">${index}</div><div class="border">${formattedTime}</div><div class="border">${child.key}</div><div class="border">${position.val()}</div><div id="user_${child.key}" class="border" style="color: red;">X</div>
                                 `;
-                                //Remove button
-                                setTimeout(() => {
-                                    document.getElementById(`user_${child.key}`).addEventListener("click", () => {
-                                        removeRow(child.key);
-                                    });
-                                }, 10);
-                            } else if (position.val() == document.getElementById("position").value) {
-                                document.getElementById("list").innerHTML += `
-                                    <div class="border">${index}</div><div class="border">${formattedTime}</div><div class="border">${child.key}</div><div class="border">${position.val()}</div><div id="user_${child.key}" class="border" style="color: red;">X</div>
-                                `;
-                                //Remove button
-                                setTimeout(() => {
-                                    document.getElementById(`user_${child.key}`).addEventListener("click", () => {
-                                        removeRow(child.key);
-                                    });
-                                }, 10);
-                            };
-                            if (!document.getElementById("list_header")) {
-                                if (document.getElementById("noData")) {
-                                    document.getElementById("noData").remove();
+                                if (!document.getElementById("list_header")) {
+                                    if (document.getElementById("noData")) {
+                                        document.getElementById("noData").remove();
+                                    };
+                                    document.getElementById("list").innerHTML = `
+                                        <div id="list_header" class="border head">列</div><div class="border head">时间</div><div class="border head">名字</div><div class="border head">组别</div><div class="border head">删除</div>
+                                    ` + document.getElementById("list").innerHTML;
                                 };
-                                document.getElementById("list").innerHTML = `
-                                    <div id="list_header" class="border head">列</div><div class="border head">时间</div><div class="border head">名字</div><div class="border head">组别</div><div class="border head">删除</div>
-                                ` + document.getElementById("list").innerHTML;
+                                //Remove button
+                                setTimeout(() => {
+                                    document.getElementById(`user_${child.key}`).addEventListener("click", () => {
+                                        removeRow(child.key);
+                                    });
+                                }, 10);
                             };
-
                         }, {
                             onlyOnce: true
                         });
