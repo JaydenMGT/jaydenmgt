@@ -308,8 +308,6 @@
                         var seconds = "0" + time.getSeconds();
                         var formattedTime = hours.substr(-2) + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
 
-                        var removeBt = [];
-
                         onValue(userInfo, (position) => {
                             // if (document.getElementById("position").value == "全部") {
                             //     document.getElementById("list").innerHTML += `
@@ -362,12 +360,11 @@
                                     ` + document.getElementById("list").innerHTML;
                                 };
                                 //Remove button
-                                removeBt[index] = setInterval(() => {
+                                setTimeout(() => {
                                     document.getElementById(`user_${child.key}`).addEventListener("click", () => {
                                         removeRow(child.key);
                                     });
-                                    clearInterval(removeBt[index]);
-                                }, 0);
+                                }, 10);
                             };
                         }, {
                             onlyOnce: true
